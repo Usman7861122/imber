@@ -1,0 +1,54 @@
+---
+import ContactForm from './islands/ContactForm';
+import { site, contact } from '../data/site';
+const endpoint = import.meta.env.PUBLIC_CONTACT_FORM_URL || undefined;
+const points = [
+  { title: 'Call us', lines: [{ t: site.phone, href: `tel:${site.phone}` }] },
+  { title: 'Email us', lines: [{ t: contact.email, href: `mailto:${contact.email}` }] },
+  { title: 'Visit us', lines: [{ t: contact.address[0], href: contact.mapHref, ext: true }, { t: contact.address[1], href: contact.mapHref, ext: true }] },
+  { title: 'Hours', lines: contact.hours.map((h) => ({ t: `${h.days}: ${h.time}` })) },
+];
+---
+<section id="contact" class="relative isolate overflow-hidden bg-[linear-gradient(180deg,#fff_0%,rgba(201,175,85,.14)_55%,#fff_100%)] pb-14 pt-24 xl:pb-16 xl:pt-28" aria-labelledby="contact-title">
+  <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+    <div class="drift-a absolute -left-28 top-[6%] size-[480px] rounded-full bg-gold/25 blur-[130px]"></div>
+    <div class="drift-b absolute -right-28 bottom-[4%] size-[520px] rounded-full bg-gold/20 blur-[140px]"></div>
+  </div>
+
+  <div class="mx-auto grid max-w-[1320px] gap-14 px-5 xl:grid-cols-[1.05fr_.95fr] xl:items-center xl:gap-20 xl:px-10">
+    <div>
+      <p class="flex items-center gap-4 text-[11px] font-medium uppercase tracking-[0.34em] text-ink/70">
+        <span class="h-px w-10 bg-gold" aria-hidden="true"></span>Contact us
+      </p>
+      <h2 id="contact-title" class="mt-6 font-display text-[clamp(2.5rem,5.4vw,4.5rem)] leading-[1.05] text-ink">Get in touch</h2>
+      <p class="mt-6 max-w-xl text-[17px] leading-relaxed text-ink/80">{contact.intro}</p>
+      <div class="mt-10 max-w-xl">
+        <ContactForm client:visible endpoint={endpoint} to={contact.email} />
+      </div>
+    </div>
+
+    <div class="relative mx-auto w-full max-w-[560px] xl:max-w-none">
+      <div class="relative">
+      <div class="absolute -bottom-4 -right-4 size-full rounded-img border border-gold/70 xl:-bottom-5 xl:-right-5" aria-hidden="true"></div>
+      <img src={contact.photo} alt="Dr. Laura Slack and her husband in the Imber Medical lobby" loading="lazy" class="relative aspect-square w-full rounded-img object-cover object-[50%_20%]" />
+      </div>
+
+    </div>
+  </div>
+
+  <div class="mx-auto mt-12 max-w-[1320px] px-5 xl:mt-14 xl:px-10">
+    <div class="h-px bg-ink/20" aria-hidden="true"></div>
+    <ul class="grid gap-8 pt-9 sm:grid-cols-2 xl:grid-cols-4 xl:gap-10">
+      {points.map((p) => (
+        <li class="group relative">
+          <span class="absolute -top-9 left-0 h-px w-full origin-left scale-x-0 bg-gold transition-transform duration-500 group-hover:scale-x-100" aria-hidden="true"></span>
+          <span class="block size-2 rotate-45 bg-gold transition-transform duration-500 group-hover:rotate-[225deg] group-hover:scale-150" aria-hidden="true"></span>
+          <h3 class="mt-5 font-display text-[26px] leading-tight text-ink transition-colors group-hover:text-[#8a7326]">{p.title}</h3>
+          <div class="mt-3 text-[16px] leading-relaxed text-ink/75">
+            {p.lines.map((l) => (l.href ? <a href={l.href} {...(l.ext ? { target: '_blank', rel: 'noopener noreferrer' } : {})} class="block break-all underline decoration-gold/0 decoration-2 underline-offset-4 transition-colors hover:decoration-gold">{l.t}</a> : <span class="block">{l.t}</span>))}
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

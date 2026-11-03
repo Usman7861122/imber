@@ -1,0 +1,178 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/logo.webp';
+import { site } from '../data/site';
+import Icon from './Icon.astro';
+import Stars from './Stars.astro';
+import MobileMenu from './islands/MobileMenu';
+import MegaMenu from './MegaMenu.astro';
+
+interface Props { overlay?: boolean }
+const { overlay = false } = Astro.props;
+const itemClass =
+  'flex items-center gap-[10px] p-[10px] font-inter text-[15px] uppercase leading-5 text-black transition-colors hover:text-gold';
+const left = site.menu.slice(0, 3);
+const right = site.menu.slice(3);
+const mobileItems = site.menu.map((m) => ({
+  label: m.label,
+  href: m.href,
+  children: m.mega?.groups.flatMap((g) => [{ label: g.title, href: g.href }, ...(g.links ?? [])]),
+}));
+---
+<header class="relative z-40">
+  <!-- Gold announcement bar -->
+  <div class="bg-gold px-[21px] py-[7px] text-center text-[16px] font-medium leading-4 text-white xl:px-0">
+    <a href={site.topbar.href} class="hover:underline">{site.topbar.text}</a>
+  </div>
+
+  <!-- Main row: white on small screens, 58% white over the hero on desktop -->
+  <div
+    data-mega-root
+    data-open="false"
+    class:list={[
+      'relative bg-white transition-colors duration-300',
+      overlay ? 'xl:absolute xl:inset-x-0 xl:top-[30px] xl:bg-white/[.72] xl:data-[open=true]:bg-white' : '',
+    ]}
+  >
+    <div class="flex h-[84px] items-center justify-between pr-[9px] xl:h-[94px] xl:px-[10px]">
+      <!-- Left group: social icons + nav, pushed toward the logo -->
+      <div class="hidden flex-1 items-center justify-end gap-3 xl:flex">
+      <div class="flex items-center">
+        {site.social.map((s) => (
+          <a href={s.href} aria-label={s.label} class="flex size-[30px] items-center justify-center text-gold hover:text-black">
+            <Icon name={s.icon as 'facebook'} class="size-5" />
+          </a>
+        ))}
+      </div>
+
+      <nav class="flex items-center" aria-label="Main">
+        {left.map((n) => (
+          n.mega ? (
+            <button type="button" data-mega-trigger={n.id} aria-expanded="false" aria-controls="mega-wrap" class:list={[itemClass, 'group/t cursor-pointer data-[open=true]:text-gold']}>
+              {n.label}
+              <Icon name="caret" class="h-4 w-[10px] transition-transform duration-300 group-data-[open=true]/t:rotate-180" />
+            </button>
+          ) : (
+            <a href={n.href} data-mega-link class={itemClass}>{n.label}</a>
+          )
+        ))}
+      </nav>
+
+      </div>
+
+      <!-- Logo + name -->
+      <a href="/" aria-label={`${site.name} home`} class="flex items-center gap-[10px] xl:px-2 2xl:px-5">
+        <Image src={logo} alt="" width={160} height={160} loading="eager" class="size-[70px] xl:size-[80px]" />
+        <span class="font-display text-[18px] text-gold xl:text-[22px]">{site.name}</span>
+      </a>
+
+      <!-- Right group: nav next to the logo, rating at the far end -->
+      <div class="hidden flex-1 items-center xl:flex">
+      <nav class="flex items-center" aria-label="Secondary">
+        {right.map((n) => (
+          n.mega ? (
+            <button type="button" data-mega-trigger={n.id} aria-expanded="false" aria-controls="mega-wrap" class:list={[itemClass, 'group/t cursor-pointer data-[open=true]:text-gold']}>
+              {n.label}
+              <Icon name="caret" class="h-4 w-[10px] transition-transform duration-300 group-data-[open=true]/t:rotate-180" />
+            </button>
+          ) : (
+            <a href={n.href} data-mega-link class={itemClass}>{n.label}</a>
+          )
+        ))}
+      </nav>
+
+      <a href={site.rating.href} class="ml-auto flex w-[200px] flex-col gap-[10px] pl-[5px]" aria-label={`${site.rating.score} stars, based on ${site.rating.count} reviews`}>
+        <span class="flex items-center gap-[10px]">
+          <span class="font-karla text-[30px] leading-[35px] text-ink">{site.rating.score}</span>
+          <Stars />
+        </span>
+        <span class="font-karla text-[18px] leading-[21px] text-ink/70 underline decoration-gold decoration-1 underline-offset-4">Based on {site.rating.count} reviews</span>
+      </a>
+
+      </div>
+
+      <!-- Menu button (mobile / tablet) -->
+      <div class="xl:hidden">
+        <MobileMenu client:media="(max-width: 1279px)" items={mobileItems} />
+      </div>
+    </div>
+    <MegaMenu items={site.menu} />
+  </div>
+</header>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-mega-root]');
+  if (root) {
+    const wrap = root.querySelector<HTMLElement>('[data-mega-wrap]')!;
+    const panels = [...root.querySelectorAll<HTMLElement>('[data-mega-panel]')];
+    const triggers = [...root.querySelectorAll<HTMLElement>('[data-mega-trigger]')];
+    let current: string | null = null;
+    let closeTimer: number | undefined;
+    let openTimer: number | undefined;
+
+    const sync = (id: string | null) => {
+      panels.forEach((p) => {
+        const on = p.dataset.megaPanel === id;
+        p.dataset.active = String(on);
+        (p as any).inert = !on;
+      });
+      triggers.forEach((t) => {
+        const on = t.dataset.megaTrigger === id;
+        t.setAttribute('aria-expanded', String(on));
+        t.dataset.open = String(on);
+      });
+    };
+    const show = (id: string) => {
+      clearTimeout(closeTimer);
+      if (id === current) return;
+      current = id;
+      sync(id);
+      const panel = panels.find((p) => p.dataset.megaPanel === id)!;
+      wrap.style.height = panel.offsetHeight + 'px';
+      wrap.dataset.open = 'true';
+      root.dataset.open = 'true';
+    };
+    const hide = () => {
+      clearTimeout(openTimer);
+      current = null;
+      sync(null);
+      wrap.style.height = '0px';
+      wrap.dataset.open = 'false';
+      root.dataset.open = 'false';
+    };
+    const later = () => {
+      clearTimeout(closeTimer);
+      closeTimer = window.setTimeout(hide, 180);
+    };
+
+    triggers.forEach((t) => {
+      const id = t.dataset.megaTrigger!;
+      t.addEventListener('mouseenter', () => {
+        clearTimeout(closeTimer);
+        clearTimeout(openTimer);
+        // switch instantly when a panel is already open, small delay when opening from closed
+        if (current) show(id);
+        else openTimer = window.setTimeout(() => show(id), 70);
+      });
+      t.addEventListener('click', (e) => {
+        if (current === id) return hide();
+        show(id);
+        if ((e as MouseEvent).detail === 0) panels.find((p) => p.dataset.megaPanel === id)?.querySelector<HTMLElement>('a')?.focus();
+      });
+    });
+    root.querySelectorAll('[data-mega-link]').forEach((l) => l.addEventListener('mouseenter', () => { clearTimeout(openTimer); if (current) later(); }));
+    root.addEventListener('mouseenter', () => clearTimeout(closeTimer));
+    root.addEventListener('mouseleave', () => { clearTimeout(openTimer); if (current) later(); });
+    root.addEventListener('focusout', (e) => {
+      if (current && !root.contains((e as FocusEvent).relatedTarget as Node)) hide();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && current) {
+        const id = current;
+        hide();
+        triggers.find((t) => t.dataset.megaTrigger === id)?.focus();
+      }
+    });
+    window.addEventListener('resize', () => current && (wrap.style.height = panels.find((p) => p.dataset.megaPanel === current)!.offsetHeight + 'px'));
+  }
+</script>

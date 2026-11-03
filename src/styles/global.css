@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+/* Tokens taken from imbermedical.com (computed styles) */
+@theme {
+  --font-sans: "Montserrat Variable", Montserrat, ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Prata", Georgia, serif;
+  --font-inter: "Inter Variable", Inter, ui-sans-serif, system-ui, sans-serif;
+  --font-karla: "Karla Variable", Karla, ui-sans-serif, system-ui, sans-serif;
+
+  --color-gold: #c9af55;   /* top bar, buttons, logo text, icons */
+  --color-ink: #1c1b1b;    /* headings, hero text */
+  --color-body: #333333;   /* body text */
+  --color-black: #000000;
+  --color-fog: #d9d9d9;    /* hero left fade */
+  --radius-img: 10px;
+  --color-muted: #9e9d9d;  /* "Based on 169 reviews" */
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply bg-white text-body font-sans antialiased; }
+  ::selection { background: var(--color-gold); color: var(--color-black); }
+  :focus-visible { outline: 2px solid var(--color-gold); outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+}
+
+/* Slow-drifting gold glows for section backgrounds */
+@keyframes drift-a { from { transform: translate3d(0,0,0) scale(1); } to { transform: translate3d(90px,60px,0) scale(1.15); } }
+@keyframes drift-b { from { transform: translate3d(0,0,0) scale(1.1); } to { transform: translate3d(-80px,-70px,0) scale(.92); } }
+.drift-a { animation: drift-a 22s ease-in-out infinite alternate; }
+.drift-b { animation: drift-b 26s ease-in-out infinite alternate; }
+@media (prefers-reduced-motion: reduce) { .drift-a, .drift-b { animation: none; } }
+
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+.spin-slow { animation: spin-slow 80s linear infinite; }
+@media (prefers-reduced-motion: reduce) { .spin-slow { animation: none; } }
+
+@keyframes grow-x { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+/* Mega menu: items rise in one after another when a panel opens */
+@keyframes mega-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+[data-mega-panel][data-active='true'] .mega-item { animation: mega-in .45s cubic-bezier(.2,.7,.2,1) both; animation-delay: calc(var(--i, 0) * 28ms); }
+@media (prefers-reduced-motion: reduce) { [data-mega-panel] .mega-item { animation: none !important; } }

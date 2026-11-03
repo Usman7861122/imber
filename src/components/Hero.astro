@@ -1,0 +1,36 @@
+---
+import { Image } from 'astro:assets';
+import hero from '../assets/hero.png';
+import { site } from '../data/site';
+const btn =
+  'inline-block rounded-[5px] border-2 px-10 py-5 text-[18px] font-medium capitalize leading-[18px] transition-opacity hover:opacity-85';
+---
+<section class="relative isolate xl:min-h-[100svh] xl:overflow-hidden xl:rounded-br-[150px]">
+  <!-- Photo: a 250px band on small screens, full-bleed behind the text on desktop -->
+  <div class="relative h-[250px] overflow-hidden xl:absolute xl:inset-0 xl:-z-20 xl:h-auto">
+    <Image
+      src={hero}
+      alt="Dr. Laura Slack in the Imber Medical treatment room"
+      widths={[900, 1400, 1950]}
+      sizes="100vw"
+      loading="eager"
+      fetchpriority="high"
+      class="h-full w-full object-cover object-[74%_0%] max-xl:origin-[74%_28%] max-xl:scale-[2.2] max-xl:-translate-x-[24%] xl:object-[100%_0%]"
+    />
+  </div>
+  <!-- Grey fade on the left so the text stays readable (desktop) -->
+  <div class="absolute inset-0 -z-10 hidden bg-[linear-gradient(90deg,#d9d9d9_41%,transparent_60%)] xl:block" aria-hidden="true"></div>
+
+  <div class="mx-auto flex w-full max-w-[1140px] xl:min-h-[100svh] xl:items-center xl:pb-[60px] xl:pt-[160px]">
+    <div class="w-full px-[10px] py-[30px] text-center xl:w-[500px] xl:p-[10px]">
+      <h1 class="font-display text-[35px] font-normal capitalize leading-[45px] text-ink xl:text-[50px] xl:leading-[65px]">
+        {site.tagline}
+      </h1>
+      <p class="mt-[10px] text-[22px] leading-[33px] text-ink">{site.description}</p>
+      <div class="mt-5 hidden justify-center gap-5 xl:flex">
+        <a href={site.bookUrl} class:list={[btn, 'border-gold bg-gold text-black']}>Book Online</a>
+        <a href={`tel:${site.phone}`} class:list={[btn, 'border-white bg-white text-ink']}>{site.phone}</a>
+      </div>
+    </div>
+  </div>
+</section>

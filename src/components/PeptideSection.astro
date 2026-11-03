@@ -1,0 +1,63 @@
+---
+import { peptides } from '../data/peptides';
+---
+<section
+  class="relative isolate overflow-hidden bg-[radial-gradient(ellipse_70%_60%_at_75%_45%,rgba(201,175,85,.16),transparent_70%),linear-gradient(180deg,#1c1b1b_0%,#000_100%)] py-24 text-white xl:py-36"
+  aria-labelledby="peptides-title"
+>
+  <!-- ambient glow -->
+  <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+    <div class="drift-a absolute -left-32 top-10 size-[460px] rounded-full bg-gold/10 blur-[130px]"></div>
+    <div class="drift-b absolute -bottom-40 right-[10%] size-[520px] rounded-full bg-gold/15 blur-[140px]"></div>
+  </div>
+
+  <div class="mx-auto grid max-w-[1320px] items-center gap-16 px-5 xl:grid-cols-[1fr_1fr] xl:gap-24 xl:px-10">
+    <!-- TEXT -->
+    <div>
+      <p class="flex items-center gap-4 text-[11px] font-medium uppercase tracking-[0.34em] text-gold">
+        <span class="h-px w-10 bg-gold" aria-hidden="true"></span>Peptide therapy
+      </p>
+      <h2 id="peptides-title" class="mt-6 font-display text-[clamp(2.5rem,5.4vw,4.5rem)] leading-[1.05] text-white">{peptides.title}</h2>
+      <p class="mt-8 max-w-xl text-[17px] leading-[1.75] text-white/75">{peptides.text}</p>
+
+      <ul class="mt-10 flex max-w-xl flex-wrap gap-2.5" aria-label="Areas peptides can support">
+        {peptides.focus.map((f) => (
+          <li class="rounded-[6px] border border-gold/40 px-4 py-2 text-[12px] font-medium tracking-[0.04em] text-white/90 transition-colors duration-300 hover:border-gold hover:bg-gold hover:text-black">{f}</li>
+        ))}
+      </ul>
+
+      <a
+        href={peptides.href}
+        class="mt-12 inline-flex items-center justify-center gap-3 bg-gold px-10 py-4 text-[12px] font-semibold uppercase tracking-[0.26em] text-black transition-colors hover:bg-white"
+      >
+        View more
+        <svg viewBox="0 0 24 24" class="size-4" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+      </a>
+    </div>
+
+    <!-- IMAGE -->
+    <div class="relative mx-auto w-full max-w-[560px]">
+      <!-- slow-turning gold rings -->
+      <svg viewBox="0 0 600 600" class="spin-slow pointer-events-none absolute left-1/2 top-1/2 -z-10 w-[135%] max-w-none -translate-x-1/2 -translate-y-1/2" fill="none" aria-hidden="true">
+        <circle cx="300" cy="300" r="290" stroke="#c9af55" stroke-opacity=".28" stroke-dasharray="2 10" />
+        <circle cx="300" cy="300" r="250" stroke="#c9af55" stroke-opacity=".18" />
+        <circle cx="300" cy="50" r="4" fill="#c9af55" />
+        <circle cx="520" cy="410" r="3" fill="#c9af55" fill-opacity=".7" />
+      </svg>
+      <div class="group/img relative pb-4 pr-4">
+        <div class="absolute inset-0 translate-x-4 translate-y-4 rounded-img border border-gold/70 transition-transform duration-500 ease-out group-hover/img:translate-x-6 group-hover/img:translate-y-6" aria-hidden="true"></div>
+        <div class="relative overflow-hidden rounded-img shadow-[0_40px_80px_-30px_rgba(201,175,85,.35)] transition-[transform,box-shadow] duration-500 ease-out group-hover/img:-translate-y-1.5">
+          <img
+          src={peptides.image}
+          alt="Peptide protocols: GHK-Cu, MOTS-c and BPC-157 vials"
+          width="1080"
+          height="1080"
+          loading="lazy"
+          class="aspect-square w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(.2,.7,.2,1)] group-hover/img:scale-105"
+        />
+          <span class="pointer-events-none absolute inset-0 rounded-img ring-1 ring-inset ring-gold/0 transition-shadow duration-500 group-hover/img:ring-gold/60" aria-hidden="true"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

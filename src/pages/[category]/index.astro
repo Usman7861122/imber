@@ -1,0 +1,99 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import { site } from '../../data/site';
+import { treatments, localCity } from '../../data/treatments';
+import { categories } from '../../data/categories';
+
+export function getStaticPaths() {
+  return categories.map((c) => ({ params: { category: c.slug }, props: { c } }));
+}
+const { c } = Astro.props;
+
+const items = treatments.filter((t) => t.group.href === c.href);
+const eyebrow = 'text-[11px] font-medium uppercase tracking-[0.34em]';
+const h2 = 'mt-6 font-display text-[clamp(2.25rem,4.6vw,3.75rem)] leading-[1.06]';
+const title = c.title;
+const description = c.description;
+const lede = c.lede;
+const steps = c.approach;
+const isCond = c.href === '/conditions/';
+const n = items.length;
+const cols = n === 1 ? 'max-w-5xl' : n === 4 ? 'md:grid-cols-2' : n === 2 ? 'md:grid-cols-2 max-w-4xl' : 'md:grid-cols-2 xl:grid-cols-3';
+const listLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: title,
+  itemListElement: items.map((t, i) => ({ '@type': 'ListItem', position: i + 1, name: t.title, url: `${c.href}${t.slug}/` })),
+};
+---
+<BaseLayout title={`${title} in ${localCity}`} description={description}>
+  <PageHero
+    title={title}
+    eyebrow={`${isCond ? 'Conditions' : 'Treatments'} · ${localCity}`}
+    lede={lede}
+    image={c.hero}
+    imageAlt={c.heroAlt}
+    position={c.heroPosition ?? '50% 30%'}
+    crumbs={isCond ? [{ label: 'Home', href: '/' }, { label: title }] : [{ label: 'Home', href: '/' }, { label: 'Treatments', href: '/treatments/' }, { label: title }]}
+  />
+
+  <!-- All sub-pages -->
+  <section class="relative isolate overflow-hidden bg-[linear-gradient(180deg,#fff_0%,rgba(201,175,85,.12)_50%,#fff_100%)] py-24 xl:py-32" aria-labelledby="list-title">
+    <div class="pointer-events-none absolute -left-24 top-10 -z-10 size-[480px] rounded-full bg-gold/25 blur-[120px] drift-a" aria-hidden="true"></div>
+    <div class="pointer-events-none absolute -right-24 bottom-10 -z-10 size-[480px] rounded-full bg-gold/20 blur-[130px] drift-b" aria-hidden="true"></div>
+    <div class="mx-auto max-w-[1320px] px-5 xl:px-10">
+      <p class:list={[eyebrow, 'flex items-center gap-4 text-ink/70']}><span class="h-px w-10 bg-gold" aria-hidden="true"></span>{isCond ? 'Choose a concern' : 'Choose a treatment'}</p>
+      <h2 id="list-title" class:list={[h2, 'max-w-2xl text-ink']}>{c.listTitle}</h2>
+      <p class="mt-6 max-w-xl text-[17px] leading-relaxed text-ink/80">{c.listText}</p>
+
+      <div class:list={['mt-16 grid gap-x-10 gap-y-14', cols]}>
+        {items.map((t, i) => (
+          <a href={`${c.href}${t.slug}/`} class:list={['group flex h-full flex-col', n === 1 && 'md:flex-row md:items-center md:gap-14']}>
+            <div class:list={['relative', n === 1 && 'md:w-1/2 md:shrink-0']}>
+              <span class="pointer-events-none absolute -bottom-4 -right-4 left-4 top-4 rounded-img border border-gold/50 transition-transform duration-500 group-hover:translate-x-1 group-hover:translate-y-1" aria-hidden="true"></span>
+              <div class="relative aspect-[5/4] overflow-hidden rounded-img bg-ink shadow-[0_30px_60px_-30px_rgba(28,27,27,.45)]">
+                <img src={t.slug === 'filler-tox' ? t.images.hero : t.images.overview} alt={t.slug === 'filler-tox' ? t.images.alt.hero : t.images.alt.overview} loading="lazy" class="size-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(.2,.7,.2,1)] group-hover:scale-105" />
+                <span class="absolute inset-0 bg-[linear-gradient(180deg,transparent_55%,rgba(28,27,27,.55)_100%)]" aria-hidden="true"></span>
+                <span class="absolute left-6 top-6 font-display text-[15px] text-white/90">{String(i + 1).padStart(2, '0')}</span>
+              </div>
+            </div>
+            <div class:list={['flex flex-1 flex-col', n === 1 && 'md:mt-0']}>
+            <h3 class="mt-9 font-display text-[clamp(1.75rem,2.6vw,2.4rem)] leading-tight text-ink transition-colors duration-300 group-hover:text-gold">{t.title}</h3>
+            <p class="mt-3 max-w-lg flex-1 text-[16px] leading-relaxed text-ink/75">{t.lede}</p>
+            <span class="mt-6 inline-flex items-center gap-3 self-start border border-gold px-7 py-3.5 text-[12px] font-semibold uppercase tracking-[0.24em] text-ink transition-colors duration-300 group-hover:bg-gold group-hover:text-black">
+              Learn more
+              <svg viewBox="0 0 24 24" class="size-4 transition-transform duration-300 group-hover:translate-x-1.5" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- How we plan -->
+  <section class="relative isolate overflow-hidden bg-[linear-gradient(160deg,#35322e,#2a2826)] py-24 text-white xl:py-28" aria-labelledby="how-title">
+    <div class="pointer-events-none absolute -left-24 top-1/3 -z-10 size-[480px] rounded-full bg-gold/20 blur-[130px] drift-a" aria-hidden="true"></div>
+    <div class="mx-auto grid max-w-[1320px] gap-14 px-5 xl:grid-cols-[.8fr_1.2fr] xl:gap-20 xl:px-10">
+      <div>
+        <p class:list={[eyebrow, 'flex items-center gap-4 text-white/70']}><span class="h-px w-10 bg-gold" aria-hidden="true"></span>Our approach</p>
+        <h2 id="how-title" class:list={[h2]}>{c.approachTitle}</h2>
+        <div class="mt-9 flex flex-wrap items-center gap-x-8 gap-y-5">
+          <a href={site.bookUrl} class="inline-flex items-center justify-center gap-3 bg-gold px-10 py-4 text-[12px] font-semibold uppercase tracking-[0.26em] text-black transition-colors hover:bg-white">Book a consultation</a>
+          <a href={`tel:${site.phone}`} class="inline-flex items-center justify-center gap-3 border border-gold px-8 py-[15px] text-[12px] font-semibold uppercase tracking-[0.2em] text-white transition-colors hover:bg-gold hover:text-black"><svg viewBox="0 0 24 24" class="size-4" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"/></svg>Call {site.phone}</a>
+        </div>
+      </div>
+      <ul class="grid gap-px border-y border-gold/40 sm:grid-cols-3 sm:divide-x sm:divide-gold/30">
+        {steps.map((s) => (
+          <li class="group py-8 sm:px-7 sm:first:pl-0 sm:last:pr-0">
+            <span class="block size-2 rotate-45 bg-gold transition-transform duration-500 group-hover:rotate-[225deg]" aria-hidden="true"></span>
+            <h3 class="mt-6 font-display text-[24px] leading-tight">{s.t}</h3>
+            <p class="mt-3 text-[15px] leading-relaxed text-white/75">{s.x}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+  <script type="application/ld+json" set:html={JSON.stringify(listLd)}></script>
+</BaseLayout>

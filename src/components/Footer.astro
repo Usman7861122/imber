@@ -1,0 +1,75 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/logo.webp';
+import Icon from './Icon.astro';
+import ContactSection from './ContactSection.astro';
+import JourneyCta from './JourneyCta.astro';
+import { site, contact, footerLinks } from '../data/site';
+
+const { showContact = true } = Astro.props;
+const year = new Date().getFullYear();
+const head = 'text-[11px] font-semibold uppercase tracking-[0.3em] text-gold';
+const link = 'text-[15px] text-white/75 transition-colors hover:text-gold';
+---
+{showContact && <ContactSection />}
+{showContact && <JourneyCta />}
+
+<footer class="relative isolate overflow-hidden bg-[linear-gradient(160deg,#1c1b1b_0%,#000_100%)] pb-28 pt-20 text-white xl:pb-10 xl:pt-24">
+  <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+    <div class="drift-a absolute -left-24 -top-24 size-[460px] rounded-full bg-gold/20 blur-[130px]"></div>
+    <div class="absolute inset-x-0 bottom-[-0.18em] select-none text-center font-display text-[clamp(6rem,24vw,22rem)] leading-none text-white/[.035]">Imber</div>
+  </div>
+
+  <div class="mx-auto max-w-[1320px] px-5 xl:px-10">
+    <div class="grid gap-12 border-b border-white/15 pb-14 sm:grid-cols-2 xl:grid-cols-[1.3fr_.8fr_.9fr_1.1fr] xl:gap-10">
+      <div>
+        <a href="/" aria-label="Imber Medical, home" class="inline-flex items-center gap-4">
+          <Image src={logo} alt="" width={160} height={160} class="size-[88px]" />
+          <span class="font-display text-[28px] leading-none text-gold">Imber<br />Medical</span>
+        </a>
+        <p class="mt-6 max-w-xs text-[15px] leading-relaxed text-white/70">{site.tagline} {site.description}</p>
+        <ul class="mt-7 flex gap-3">
+          {site.social.map((s) => (
+            <li>
+              <a href={s.href} aria-label={s.label} {...(s.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})} class="grid size-11 place-items-center rounded-full border border-white/25 transition-colors hover:border-gold hover:bg-gold hover:text-black">
+                <Icon name={s.icon} class="size-5" />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <nav aria-label="Explore">
+        <h3 class={head}>Explore</h3>
+        <ul class="mt-6 grid gap-3">{footerLinks.explore.map((l) => <li><a href={l.href} class={link}>{l.label}</a></li>)}</ul>
+      </nav>
+
+      <nav aria-label="Resources">
+        <h3 class={head}>Resources</h3>
+        <ul class="mt-6 grid gap-3">{footerLinks.resources.map((l) => <li><a href={l.href} class={link}>{l.label}</a></li>)}</ul>
+      </nav>
+
+      <div>
+        <h3 class={head}>Visit us</h3>
+        <address class="mt-6 not-italic">
+          <a href={contact.mapHref} target="_blank" rel="noopener noreferrer" class={link}>{contact.address[0]}<br />{contact.address[1]}</a>
+        </address>
+        <ul class="mt-5 grid gap-1 text-[15px] text-white/75">
+          {contact.hours.map((h) => <li class="flex justify-between gap-4 sm:max-w-[240px]"><span>{h.days}</span><span class="text-white">{h.time}</span></li>)}
+        </ul>
+        <ul class="mt-6 grid gap-2">
+          <li><a href={`tel:${site.phone}`} class="inline-flex items-center border border-gold/60 px-4 py-2 text-[14px] text-white/90 transition-colors hover:bg-gold hover:text-black">{site.phone}</a></li>
+          <li><a href={`mailto:${contact.email}`} class="inline-flex items-center border border-gold/60 px-4 py-2 text-[14px] text-white/90 transition-colors hover:bg-gold hover:text-black break-all">{contact.email}</a></li>
+        </ul>
+        <a href={site.bookUrl} class="mt-7 inline-flex items-center justify-center bg-gold px-8 py-3.5 text-[12px] font-semibold uppercase tracking-[0.26em] text-black transition-colors hover:bg-white">Book online</a>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-4 pt-8 text-[13px] text-white/55 sm:flex-row sm:items-center sm:justify-between">
+      <p>© {year} {site.name}. All rights reserved.</p>
+      <ul class="flex flex-wrap gap-x-6 gap-y-2">
+        {footerLinks.legal.map((l) => <li><a href={l.href} class="transition-colors hover:text-gold">{l.label}</a></li>)}
+      </ul>
+    </div>
+  </div>
+</footer>

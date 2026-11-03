@@ -1,0 +1,8 @@
+---
+import DecadeSlider from './islands/DecadeSlider';
+import { decades } from '../data/decades';
+import { site } from '../data/site';
+---
+<section aria-label="Treatments by decade">
+  <DecadeSlider client:visible decades={decades} bookUrl={site.bookUrl} />
+</section>

@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { site } from '../data/site';
+import { treatments, localCity } from '../data/treatments';
+import { categories } from '../data/categories';
+
+const eyebrow = 'text-[11px] font-medium uppercase tracking-[0.34em]';
+const h2 = 'mt-6 font-display text-[clamp(2.25rem,4.6vw,3.75rem)] leading-[1.06]';
+const title = 'Treatments';
+const description = `Explore every treatment at Imber Medical in ${localCity}: injectables, hair, skin, body, wellness and medical weight loss, all led by Dr. Laura Slack.`;
+const withItems = categories.filter((c) => c.inTreatments !== false).map((c) => ({ c, items: treatments.filter((t) => t.group.href === c.href) }));
+const listLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: title,
+  itemListElement: categories.filter((c) => c.inTreatments !== false).map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.title, url: c.href })),
+};
+---
+<BaseLayout title={`${title} in ${localCity}`} description={description}>
+  <PageHero
+    title={title}
+    eyebrow={`Imber Medical · ${localCity}`}
+    lede="Advanced aesthetics and wellness, planned around you by Dr. Laura Slack."
+    image="/images/treatments/facial-slimming-1.jpg"
+    imageAlt="A woman with her face turned to the light"
+    position="50% 30%"
+    crumbs={[{ label: 'Home', href: '/' }, { label: title }]}
+  />
+
+  {withItems.map(({ c, items }, i) => (
+    <section class:list={['relative isolate overflow-hidden py-20 xl:py-28', i % 2 === 0 ? 'bg-[linear-gradient(180deg,#fff_0%,rgba(201,175,85,.12)_55%,#fff_100%)]' : 'bg-[linear-gradient(160deg,#2a2826_0%,#1c1b1b_60%,#000_100%)] text-white']} aria-labelledby={`cat-${c.slug}`}>
+      <div class:list={['pointer-events-none absolute -z-10 size-[460px] rounded-full blur-[130px]', i % 2 === 0 ? '-left-24 top-10 bg-gold/25 drift-a' : '-right-24 bottom-0 bg-gold/20 drift-b']} aria-hidden="true"></div>
+      <div class:list={['mx-auto grid max-w-[1320px] items-center gap-12 px-5 xl:gap-20 xl:px-10', 'xl:grid-cols-2']}>
+        <a href={c.href} class:list={['group relative block', i % 2 === 1 && 'xl:order-2']} aria-label={c.title}>
+          <span class="pointer-events-none absolute -bottom-4 -right-4 left-4 top-4 rounded-img border border-gold/50 transition-transform duration-500 group-hover:translate-x-1 group-hover:translate-y-1" aria-hidden="true"></span>
+          <div class="relative aspect-[5/4] overflow-hidden rounded-img bg-ink shadow-[0_30px_60px_-30px_rgba(28,27,27,.5)]">
+            <img src={c.hero} alt={c.heroAlt} loading="lazy" class="size-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(.2,.7,.2,1)] group-hover:scale-105" style={`object-position:${c.heroPosition ?? '50% 30%'}`} />
+            <span class="absolute inset-0 bg-[linear-gradient(180deg,transparent_55%,rgba(28,27,27,.5)_100%)]" aria-hidden="true"></span>
+          </div>
+        </a>
+        <div>
+          <p class:list={[eyebrow, 'flex items-center gap-4', i % 2 === 0 ? 'text-ink/70' : 'text-white/70']}><span class="h-px w-10 bg-gold" aria-hidden="true"></span>{String(i + 1).padStart(2, '0')} · {items.length} {items.length === 1 ? 'treatment' : 'treatments'}</p>
+          <h2 id={`cat-${c.slug}`} class:list={[h2, i % 2 === 0 ? 'text-ink' : 'text-white']}>{c.title}</h2>
+          <p class:list={['mt-5 max-w-lg text-[17px] leading-relaxed', i % 2 === 0 ? 'text-ink/80' : 'text-white/80']}>{c.intro}</p>
+          <ul class:list={['mt-8 border-t', i % 2 === 0 ? 'border-ink/15' : 'border-white/15']}>
+            {items.map((t) => (
+              <li>
+                <a href={`${c.href}${t.slug}/`} class:list={['group/row flex items-center justify-between gap-4 border-b py-4 text-[16px] transition-colors hover:text-gold', i % 2 === 0 ? 'border-ink/15 text-ink' : 'border-white/15 text-white']}>
+                  <span>{t.title}</span>
+                  <svg viewBox="0 0 24 24" class="size-4 shrink-0 text-gold transition-transform duration-300 group-hover/row:translate-x-1.5" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                </a>
+              </li>
+            ))}
+          </ul>
+          <a href={c.href} class:list={['mt-8 inline-flex items-center gap-3 border border-gold px-7 py-3.5 text-[12px] font-semibold uppercase tracking-[0.24em] transition-colors duration-300 hover:bg-gold hover:text-black', i % 2 === 0 ? 'text-ink' : 'text-white']}>
+            Explore {c.title}
+            <svg viewBox="0 0 24 24" class="size-4" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <section class="relative isolate overflow-hidden bg-[linear-gradient(160deg,#35322e,#2a2826)] py-20 text-white xl:py-24">
+    <div class="mx-auto flex max-w-[1320px] flex-col items-start justify-between gap-8 px-5 md:flex-row md:items-center xl:px-10">
+      <div>
+        <h2 class="font-display text-[clamp(1.9rem,3.6vw,3rem)] leading-tight">Not sure where to start?</h2>
+        <p class="mt-3 max-w-xl text-[17px] leading-relaxed text-white/75">Book a consultation. Dr. Slack will listen first and suggest only what makes sense for you.</p>
+      </div>
+      <div class="flex flex-wrap items-center gap-5">
+        <a href={site.bookUrl} class="inline-flex items-center justify-center gap-3 bg-gold px-10 py-4 text-[12px] font-semibold uppercase tracking-[0.26em] text-black transition-colors hover:bg-white">Book a consultation</a>
+        <a href={`tel:${site.phone}`} class="inline-flex items-center justify-center gap-3 border border-gold px-8 py-[15px] text-[12px] font-semibold uppercase tracking-[0.2em] text-white transition-colors hover:bg-gold hover:text-black">Call {site.phone}</a>
+      </div>
+    </div>
+  </section>
+  <script type="application/ld+json" set:html={JSON.stringify(listLd)}></script>
+</BaseLayout>

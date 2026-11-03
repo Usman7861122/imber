@@ -1,0 +1,49 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/logo.webp';
+import ServicesFlip from './islands/ServicesFlip';
+import { featuredServices, SERVICE_IMG_BASE } from '../data/services';
+
+// Home page shows the first 6; the rest live on /services
+const items = featuredServices.slice(0, 6).map(({ slug, title, blurb, file, href }) => ({ href,
+  slug, title, blurb, image: SERVICE_IMG_BASE + file,
+}));
+---
+<section id="services" class="relative isolate overflow-x-clip bg-[linear-gradient(180deg,#fff_0%,rgba(201,175,85,.12)_50%,#fff_100%)] py-24 xl:py-32" aria-labelledby="services-title">
+  <!-- soft moving glow -->
+  <div class="pointer-events-none absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
+    <div class="drift-a absolute -left-24 -top-24 size-[520px] rounded-full bg-gold/30 blur-[110px]"></div>
+    <div class="drift-b absolute -right-28 top-[28%] size-[480px] rounded-full bg-gold/25 blur-[120px]"></div>
+    <div class="drift-a absolute -bottom-32 left-[28%] size-[520px] rounded-full bg-gold/20 blur-[130px]"></div>
+  </div>
+  <!-- logo watermark: sits behind the card grid, the card row covers its lower part -->
+  <div class="pointer-events-none absolute -top-2 z-0 hidden select-none xl:block xl:right-[max(0px,calc((100%-1240px)/2-2.75rem))]" aria-hidden="true">
+    <div class="relative grid size-[480px] place-items-center">
+      <span class="spin-slow absolute inset-0 rounded-full border border-dashed border-gold/30"></span>
+      <span class="absolute inset-9 rounded-full border border-gold/20"></span>
+      <span class="absolute inset-0 rounded-full bg-gold/10 blur-3xl"></span>
+      <Image src={logo} alt="" width={800} height={800} class="relative size-[350px] object-contain opacity-[.22]" />
+    </div>
+  </div>
+  <div class="relative mx-auto flex max-w-[1320px] flex-col gap-8 px-5 xl:flex-row xl:items-end xl:justify-between xl:px-10">
+    <div>
+      <p class="flex items-center gap-4 text-[11px] font-medium uppercase tracking-[0.34em] text-ink/70">
+        <span class="h-px w-10 bg-gold" aria-hidden="true"></span>Featured services
+      </p>
+      <h2 id="services-title" class="mt-6 font-display text-[clamp(2.5rem,5.4vw,4.5rem)] leading-[1.05] text-ink">Our Treatments</h2>
+      <p class="mt-6 max-w-md text-[17px] leading-relaxed text-ink/80">
+        Advanced aesthetics and functional medicine, planned around you.
+      </p>
+    </div>
+  </div>
+  <div class="relative z-10"><ServicesFlip client:visible items={items} /></div>
+  <div class="mt-14 flex justify-center px-5 xl:mt-16">
+    <a
+      href="/treatments/"
+      class="inline-flex items-center justify-center gap-3 bg-black px-10 py-4 text-[12px] font-semibold uppercase tracking-[0.26em] text-gold transition-colors hover:bg-gold hover:text-black"
+    >
+      See all services
+      <svg viewBox="0 0 24 24" class="size-4" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+    </a>
+  </div>
+</section>

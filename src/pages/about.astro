@@ -1,0 +1,200 @@
+---
+import { Image } from 'astro:assets';
+import banner from '../assets/2nd-banner.png';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import LocationSection from '../components/LocationSection.astro';
+import TestimonialsSection from '../components/TestimonialsSection.astro';
+import { site } from '../data/site';
+import { localCity } from '../data/treatments';
+import { categories } from '../data/categories';
+
+const eyebrow = 'text-[11px] font-medium uppercase tracking-[0.34em]';
+const h2 = 'mt-6 font-display text-[clamp(2.25rem,4.6vw,3.75rem)] leading-[1.06]';
+const title = 'About Imber Medical';
+const description = `Meet Dr. Laura Slack, a board certified physician, and the team at Imber Medical in ${localCity}. Anti-aging, aesthetics and wellness care planned around you.`;
+
+// TODO (Dr. Slack): review all copy on this page.
+const credentials = [
+  { t: 'Honors degree', icon: '<path d="M2 9l10-5 10 5-10 5L2 9z"/><path d="M6 11.5V16c0 1.2 2.7 2.5 6 2.5s6-1.3 6-2.5v-4.5"/><path d="M22 9v6"/>', x: 'Undergraduate degree with honors from the University of North Carolina Wilmington.' },
+  { t: 'Study in London', icon: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.6 2.7 4 5.7 4 9s-1.4 6.3-4 9c-2.6-2.7-4-5.7-4-9s1.4-6.3 4-9z"/>', x: 'Additional study at Roehampton University in the United Kingdom.' },
+  { t: 'Medical missions', icon: '<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.600-7 10-7 10z"/><path d="M12 9v5M9.500 11.500h5"/>', x: 'Medical elective and mission work in China, the West Indies and West Africa.' },
+  { t: 'Clinical training', icon: '<path d="M6 3v6a4 4 0 0 0 8 0V3"/><path d="M10 13v2a4 4 0 0 0 8 0v-1.500"/><circle cx="18" cy="12" r="2"/>', x: 'Clinical studies in New York.' },
+  { t: 'Board certified', icon: '<circle cx="12" cy="9" r="5.500"/><path d="M9 14l-1.500 7L12 18.500 16.500 21 15 14"/><path d="M10 9l1.500 1.500L14.500 7.500"/>', x: 'Board certification in family and geriatric medicine.' },
+  { t: 'Aesthetic medicine', icon: '<path d="M12 3l1.900 5.100L19 10l-5.100 1.900L12 17l-1.900-5.100L5 10l5.100-1.900L12 3z"/><path d="M19 16l.800 2.200L22 19l-2.200.800L19 22l-.800-2.200L16 19l2.200-.800L19 16z"/>', x: 'Certified in aesthetic medicine and anti-aging by the American Academy of Procedural Medicine (AAPM).' },
+];
+const values = [
+  { t: 'We listen first', x: 'Every visit starts with your goals, your history and what you want to feel and see.' },
+  { t: 'We plan for you', x: 'No two faces, bodies or stories are the same. Your plan is made for you, in small, clear steps.' },
+  { t: 'We keep it natural', x: 'The aim is a rested, healthy look that still looks like you.' },
+  { t: 'Physician-led care', x: 'Dr. Slack oversees your care and checks that it is safe and right for you.' },
+];
+const offer = categories.filter((c) => c.inTreatments !== false);
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'Physician',
+  name: 'Laura Slack, MD',
+  medicalSpecialty: 'Family Medicine',
+  url: 'https://imbermedical.com/about/',
+  worksFor: { '@type': 'MedicalBusiness', name: site.name, telephone: site.phone, address: { '@type': 'PostalAddress', streetAddress: '1620 Frederica Road', addressLocality: 'St. Simons Island', addressRegion: 'GA', postalCode: '31522' } },
+};
+---
+<BaseLayout title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+  <PageHero
+    title="About"
+    eyebrow={`Imber Medical · ${localCity}`}
+    lede="Anti-aging and advanced aesthetics, led by a board certified physician who knows your name."
+    image="/images/team.jpg"
+    imageAlt="The Imber Medical team: Dr. Laura Slack and her staff"
+    position="50% 4%"
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'About' }]}
+  />
+
+  <!-- Meet Dr. Slack -->
+  <section class="relative isolate overflow-hidden bg-[linear-gradient(180deg,#fff_0%,rgba(201,175,85,.12)_55%,#fff_100%)] py-20 xl:py-28" aria-labelledby="meet-title">
+    <div class="pointer-events-none absolute -left-24 top-10 -z-10 size-[460px] rounded-full bg-gold/25 blur-[130px] drift-a" aria-hidden="true"></div>
+    <div class="mx-auto grid max-w-[1320px] items-center gap-12 px-5 xl:grid-cols-2 xl:gap-20 xl:px-10">
+      <div class="relative">
+        <span class="pointer-events-none absolute -bottom-4 -right-4 left-4 top-4 rounded-img border border-gold/50" aria-hidden="true"></span>
+        <Image src={banner} alt="Dr. Laura Slack and her husband in the Imber Medical treatment room" widths={[700, 1100, 1500]} sizes="(min-width:1280px) 600px, 100vw" loading="lazy" class="relative aspect-[5/4] w-full rounded-img object-cover object-[20%_30%] shadow-[0_30px_60px_-30px_rgba(28,27,27,.5)]" />
+      </div>
+      <div>
+        <p class:list={[eyebrow, 'flex items-center gap-4 text-ink/70']}><span class="h-px w-10 bg-gold" aria-hidden="true"></span>Meet your physician</p>
+        <h2 id="meet-title" class:list={[h2, 'text-ink']}>Laura Slack, MD</h2>
+        <p class="mt-4 text-[13px] font-semibold uppercase tracking-[0.24em] text-gold">Board Certified Physician</p>
+        <div class="mt-6 space-y-5 text-[17px] leading-relaxed text-ink/80">
+          <p>Dr. Slack is a board certified physician in family and geriatric medicine, with extra certification in aesthetic medicine and anti-aging. Her path took her from North Carolina to London, and then to medical work in China, the West Indies and West Africa, before her clinical studies in New York.</p>
+          <p>That mix of whole-person medicine and aesthetic care shapes how she works. She looks at your skin, your health and your goals together, and she suggests only what makes sense for you.</p>
+        </div>
+        <div class="mt-9 flex flex-wrap gap-4">
+          <a href={site.bookUrl} class="inline-flex items-center justify-center gap-3 bg-gold px-8 py-[15px] text-[12px] font-semibold uppercase tracking-[0.2em] text-black transition-opacity hover:opacity-85">Book a consultation</a>
+          <a href="/contact-us" class="inline-flex items-center justify-center gap-3 border border-gold px-8 py-[15px] text-[12px] font-semibold uppercase tracking-[0.2em] text-ink transition-colors hover:bg-gold hover:text-black">Contact us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Credentials: timeline -->
+  <section class="relative isolate overflow-hidden bg-[linear-gradient(160deg,#2a2826_0%,#1c1b1b_60%,#000_100%)] py-20 text-white xl:py-28" aria-labelledby="cred-title">
+    <div class="pointer-events-none absolute -right-24 bottom-0 -z-10 size-[460px] rounded-full bg-gold/20 blur-[130px] drift-b" aria-hidden="true"></div>
+    <div class="pointer-events-none absolute -left-24 top-20 -z-10 size-[360px] rounded-full bg-gold/15 blur-[120px] drift-a" aria-hidden="true"></div>
+    <div class="mx-auto max-w-[1320px] px-5 xl:px-10">
+      <p class:list={[eyebrow, 'flex items-center gap-4 text-white/70']}><span class="h-px w-10 bg-gold" aria-hidden="true"></span>Training and credentials</p>
+      <h2 id="cred-title" class:list={[h2, 'max-w-2xl text-white']}>Medicine first, then aesthetics</h2>
+
+      <ol class="tl relative mt-16 xl:mt-20" data-timeline>
+        <!-- the line: grey track + gold line that draws as you scroll -->
+        <span class="tl-track absolute bottom-2 left-5 top-2 w-px bg-white/15 xl:left-1/2 xl:-translate-x-1/2" aria-hidden="true"></span>
+        <span class="tl-fill absolute left-5 top-2 w-px origin-top bg-gold xl:left-1/2 xl:-translate-x-1/2" style="height:calc(100% - 1rem);transform:scaleY(var(--tl,0))" aria-hidden="true"></span>
+
+        {credentials.map((c, i) => (
+          <li class:list={['tl-item group relative pb-12 pl-16 last:pb-0 xl:grid xl:grid-cols-2 xl:gap-24 xl:pl-0', i % 2 === 1 && 'xl:[&>article]:col-start-2']} style={`--d:${i * 60}ms`}>
+            <span class="tl-dot absolute left-0 top-5 z-10 grid size-10 place-items-center rounded-full border border-gold/60 bg-[#1c1b1b] text-gold shadow-[0_0_0_6px_#1c1b1b] transition-[transform,color,border-color,background-color,box-shadow] duration-500 group-hover:scale-110 group-hover:border-gold group-hover:bg-gold group-hover:text-black group-hover:shadow-[0_0_0_6px_#1c1b1b,0_0_28px_rgba(201,175,85,.55)] xl:left-1/2 xl:-translate-x-1/2 xl:group-hover:-translate-x-1/2" aria-hidden="true">
+              <svg viewBox="0 0 24 24" class="size-[22px] transition-transform duration-500 group-hover:scale-110" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={c.icon} />
+            </span>
+            <article class:list={['tl-card relative rounded-img border border-white/10 bg-white/[.04] p-7 backdrop-blur-sm transition-[transform,border-color,background-color,box-shadow] duration-500 ease-out hover:-translate-y-1.5 hover:border-gold/60 hover:bg-white/[.07] hover:shadow-[0_26px_50px_-28px_rgba(201,175,85,.35)] xl:p-8', i % 2 === 0 ? 'xl:mr-6' : 'xl:ml-6']}>
+              <h3 class="font-display text-[26px] leading-tight text-gold transition-colors duration-500 group-hover:text-white">{c.t}</h3>
+              <p class="mt-3 text-[16px] leading-relaxed text-white/80">{c.x}</p>
+              <span class="absolute inset-x-0 top-0 h-[2px] origin-left scale-x-0 rounded-full bg-gold transition-transform duration-700 ease-out group-hover:scale-x-100" aria-hidden="true"></span>
+            </article>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- How we care -->
+  <section class="relative isolate overflow-hidden bg-[linear-gradient(180deg,#fff_0%,rgba(201,175,85,.12)_55%,#fff_100%)] py-16 xl:py-20" aria-labelledby="values-title">
+    <div class="mx-auto max-w-[1320px] px-5 xl:px-10">
+      <div class="grid items-end gap-6 xl:grid-cols-[1.2fr_1fr] xl:gap-16">
+      <div>
+        <p class:list={[eyebrow, 'flex items-center gap-4 text-ink/70']}><span class="h-px w-10 bg-gold" aria-hidden="true"></span>How we care for you</p>
+        <h2 id="values-title" class="mt-6 font-display text-[clamp(2.25rem,4vw,3.5rem)] leading-[1.06] text-ink"><span class="block sm:whitespace-nowrap">Look radiant.</span><span class="block sm:whitespace-nowrap">Feel empowered.</span></h2>
+        </div>
+      <p class="max-w-md text-[17px] leading-relaxed text-ink/80 xl:pb-2">Our promise is simple: care that is personal, honest and safe, with results that feel like you.</p>
+      </div>
+      <ul class="mt-10 grid gap-5 sm:grid-cols-2 xl:mt-12 xl:grid-cols-4" data-reveal>
+        {values.map((v, i) => (
+          <li class="reveal-up group relative isolate flex flex-col overflow-hidden rounded-img border border-ink/10 bg-white/80 p-7 shadow-[0_20px_40px_-30px_rgba(28,27,27,.4)] transition-[transform,box-shadow,border-color] duration-500 ease-out hover:-translate-y-2 hover:border-gold/70 hover:shadow-[0_34px_60px_-30px_rgba(28,27,27,.55)] " style={`--d:${i * 90}ms`}>
+            <!-- dark fill that rises on hover -->
+            <span class="absolute inset-0 -z-10 translate-y-full bg-[linear-gradient(160deg,#2a2826_0%,#1c1b1b_70%,#000_100%)] transition-transform duration-[600ms] ease-[cubic-bezier(.2,.7,.2,1)] group-hover:translate-y-0" aria-hidden="true"></span>
+            <!-- soft gold glow in the corner -->
+            <span class="pointer-events-none absolute -right-10 -top-10 -z-10 size-40 rounded-full bg-gold/25 opacity-0 blur-3xl transition-opacity duration-700 group-hover:opacity-100" aria-hidden="true"></span>
+            <span class="grid size-10 place-items-center rounded-full border border-gold/50 transition-[transform,background-color,border-color] duration-500 group-hover:rotate-90 group-hover:border-gold group-hover:bg-gold" aria-hidden="true">
+              <span class="size-[9px] rotate-45 bg-gold transition-colors duration-500 group-hover:bg-black"></span>
+            </span>
+            <h3 class="mt-5 font-display text-[24px] leading-tight text-ink transition-colors duration-500 group-hover:text-gold">{v.t}</h3>
+            <p class="mt-3 flex-1 text-[15px] leading-[1.7] text-ink/75 transition-colors duration-500 group-hover:text-white/85">{v.x}</p>
+            <span class="mt-6 block h-[2px] w-12 rounded-full bg-gold transition-[width] duration-700 ease-out group-hover:w-full" aria-hidden="true"></span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Care we offer -->
+  <section class="relative isolate overflow-hidden bg-[linear-gradient(160deg,#2a2826_0%,#1c1b1b_60%,#000_100%)] py-20 text-white xl:py-28" aria-labelledby="offer-title">
+    <div class="mx-auto max-w-[1320px] px-5 xl:px-10">
+      <p class:list={[eyebrow, 'flex items-center gap-4 text-white/70']}><span class="h-px w-10 bg-gold" aria-hidden="true"></span>Care we offer</p>
+      <h2 id="offer-title" class:list={[h2, 'max-w-2xl text-white']}>One clinic, every kind of care</h2>
+      <ul class="mt-12 grid gap-x-12 border-t border-white/15 md:grid-cols-2">
+        {offer.map((c) => (
+          <li>
+            <a href={c.href} class="group flex items-center justify-between gap-4 border-b border-white/15 py-5 text-[17px] transition-colors hover:text-gold">
+              <span>{c.title}</span>
+              <svg viewBox="0 0 24 24" class="size-4 shrink-0 text-gold transition-transform duration-300 group-hover:translate-x-1.5" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <a href="/treatments/" class="mt-10 inline-flex items-center gap-3 border border-gold px-7 py-3.5 text-[12px] font-semibold uppercase tracking-[0.24em] text-white transition-colors duration-300 hover:bg-gold hover:text-black">View all treatments</a>
+    </div>
+  </section>
+
+  <LocationSection />
+  <TestimonialsSection />
+</BaseLayout>
+
+<style>
+  .reveal-up { opacity: 0; transform: translateY(26px); }
+  .reveal-up.in { opacity: 1; transform: none; transition: opacity .8s ease var(--d, 0ms), transform .8s cubic-bezier(.2,.7,.2,1) var(--d, 0ms), box-shadow .5s ease, border-color .5s ease; }
+  .reveal-up.in:hover { transform: translateY(-8px); transition-delay: 0ms; }
+  @media (prefers-reduced-motion: reduce) { .reveal-up { opacity: 1; transform: none; } }
+  .tl-item { opacity: 0; transform: translateY(26px); transition: opacity .8s ease var(--d, 0ms), transform .8s cubic-bezier(.2,.7,.2,1) var(--d, 0ms); }
+  .tl-item.in { opacity: 1; transform: none; }
+  .tl-fill { transition: transform .15s linear; }
+  @media (prefers-reduced-motion: reduce) {
+    .tl-item { opacity: 1; transform: none; transition: none; }
+    .tl-fill { transform: scaleY(1) !important; transition: none; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-reveal]').forEach((box) => {
+    const els = box.querySelectorAll<HTMLElement>('.reveal-up');
+    if (!('IntersectionObserver' in window)) { els.forEach((e) => e.classList.add('in')); return; }
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.2 });
+    els.forEach((e) => io.observe(e));
+  });
+  const tl = document.querySelector<HTMLElement>('[data-timeline]');
+  if (tl) {
+    const items = tl.querySelectorAll<HTMLElement>('.tl-item');
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce || !('IntersectionObserver' in window)) {
+      items.forEach((el) => el.classList.add('in'));
+      tl.style.setProperty('--tl', '1');
+    } else {
+      const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.2 });
+      items.forEach((el) => io.observe(el));
+      const update = () => {
+        const r = tl.getBoundingClientRect();
+        const p = (innerHeight * 0.6 - r.top) / r.height;
+        tl.style.setProperty('--tl', String(Math.max(0, Math.min(1, p))));
+      };
+      addEventListener('scroll', update, { passive: true });
+      addEventListener('resize', update);
+      update();
+    }
+  }
+</script>

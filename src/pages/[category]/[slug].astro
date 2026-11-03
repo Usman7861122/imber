@@ -1,0 +1,10 @@
+---
+import TreatmentPage from '../../components/TreatmentPage.astro';
+import { treatments } from '../../data/treatments';
+
+export function getStaticPaths() {
+  return treatments.map((t) => ({ params: { category: t.group.href.replace(/\//g, ''), slug: t.slug }, props: { t } }));
+}
+const { t } = Astro.props;
+---
+<TreatmentPage t={t} />

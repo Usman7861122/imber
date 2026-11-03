@@ -1,0 +1,42 @@
+---
+import TestimonialSlider from './islands/TestimonialSlider';
+import { sampleReviews } from '../data/location';
+import { site } from '../data/site';
+
+// The patient testimonials shown on the live site (text only, no photos).
+const items = sampleReviews.map(({ author, text }) => ({ author, text }));
+---
+<section
+  class="relative isolate overflow-hidden bg-[linear-gradient(180deg,#fff_0%,rgba(201,175,85,.12)_55%,#fff_100%)] py-24 xl:py-32"
+  aria-labelledby="testimonials-title"
+>
+  <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+    <div class="drift-a absolute -left-28 top-[10%] size-[480px] rounded-full bg-gold/25 blur-[130px]"></div>
+    <div class="drift-b absolute -right-28 bottom-[5%] size-[520px] rounded-full bg-gold/20 blur-[140px]"></div>
+  </div>
+
+  <div class="mx-auto max-w-[1320px] px-5 text-center xl:px-10">
+    <p class="flex items-center justify-center gap-4 text-[11px] font-medium uppercase tracking-[0.34em] text-ink/70">
+      <span class="h-px w-10 bg-gold" aria-hidden="true"></span>In their own words<span class="h-px w-10 bg-gold" aria-hidden="true"></span>
+    </p>
+    <h2 id="testimonials-title" class="mt-6 font-display text-[clamp(2.5rem,5.4vw,4.5rem)] leading-[1.05] text-ink">Patient Reviews</h2>
+    <p class="mt-5 text-[14px] text-ink/70">
+      <span class="font-semibold text-ink">{site.rating.score}</span> out of 5 &nbsp;&middot;&nbsp;
+      <a href={site.rating.href} target="_blank" rel="noopener noreferrer" class="underline decoration-gold decoration-2 underline-offset-4 hover:text-black">Based on {site.rating.count} Google reviews</a>
+    </p>
+  </div>
+
+  <div class="mx-auto mt-14 max-w-[1320px] px-5 xl:mt-16 xl:px-10">
+    <TestimonialSlider client:visible items={items} />
+  </div>
+
+  <div class="mt-16 flex justify-center px-5 xl:mt-20">
+    <a
+      href="/testimonials"
+      class="inline-flex items-center justify-center gap-3 bg-black px-10 py-4 text-[12px] font-semibold uppercase tracking-[0.26em] text-gold transition-colors hover:bg-gold hover:text-black"
+    >
+      View all testimonials
+      <svg viewBox="0 0 24 24" class="size-4" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+    </a>
+  </div>
+</section>

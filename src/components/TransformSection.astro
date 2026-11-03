@@ -1,0 +1,49 @@
+---
+/** Photo from the live site (hot-linked for now; see scripts/fetch-service-images.sh) */
+const image = 'https://imbermedical.com/wp-content/uploads/2026/03/webres_3V2A2795-1-1-scaled-e1772645506600.jpg';
+---
+<section
+  class="relative bg-ink text-white xl:h-[100svh] xl:min-h-[700px]"
+  aria-labelledby="transform-title"
+>
+  <!-- Fixed-window parallax: the photo stays put while the page scrolls over it.
+       (clip-path keeps the fixed image inside this section; it also works on iPhones.) -->
+  <div class="relative h-[360px] overflow-hidden sm:h-[520px] xl:absolute xl:inset-0 xl:h-auto xl:[clip-path:inset(0)]">
+    <img
+      src={image}
+      alt="The Imber Medical team"
+      width="1440"
+      height="727"
+      loading="lazy"
+      class="size-full object-cover object-[50%_30%] xl:fixed xl:inset-0 xl:h-[100svh] xl:w-full"
+    />
+    <span class="absolute inset-0 bg-ink/10 xl:hidden" aria-hidden="true"></span>
+  </div>
+
+  <!-- Dark fade so the text stays easy to read -->
+  <div class="pointer-events-none absolute inset-x-0 bottom-0 hidden h-[62%] bg-gradient-to-t from-black/85 via-black/50 to-transparent xl:block" aria-hidden="true"></div>
+
+  <!-- Text layer -->
+  <div class="relative px-5 py-14 sm:py-16 xl:absolute xl:inset-x-0 xl:bottom-0 xl:px-0 xl:pb-20 xl:pt-0">
+    <div class="mx-auto flex max-w-[1320px] flex-col gap-10 xl:flex-row xl:items-end xl:justify-between xl:px-10">
+      <div class="max-w-[760px]">
+        <p class="flex items-center gap-4 text-[11px] font-medium uppercase tracking-[0.34em] text-gold">
+          <span class="h-px w-10 bg-gold" aria-hidden="true"></span>Our expert team
+        </p>
+        <h2 id="transform-title" class="mt-6 font-display text-[clamp(2.4rem,5.6vw,4.75rem)] leading-[1.06] text-white">
+          Transform Your Look with Expert
+        </h2>
+        <p class="mt-6 max-w-[560px] text-[17px] leading-[1.75] text-white/80">
+          Take the next step toward a more confident, refreshed you with personalized treatments designed by our expert team.
+        </p>
+      </div>
+      <a
+        href="/contact-us"
+        class="inline-flex shrink-0 items-center justify-center gap-3 self-start bg-gold px-10 py-5 text-[12px] font-semibold uppercase tracking-[0.26em] text-black transition-colors hover:bg-white xl:self-auto"
+      >
+        Contact us
+        <svg viewBox="0 0 24 24" class="size-4" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+      </a>
+    </div>
+  </div>
+</section>

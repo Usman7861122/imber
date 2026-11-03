@@ -1,0 +1,267 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/logo.webp';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from './PageHero.astro';
+import { site } from '../data/site';
+import { localCity, localAreas, treatments } from '../data/treatments';
+import type { Treatment } from '../data/treatments';
+
+interface Props { t: Treatment }
+const { t } = Astro.props;
+const sameGroup = treatments.filter((x) => x.group.href === t.group.href);
+const at = sameGroup.findIndex((x) => x.slug === t.slug);
+// Big groups (Conditions) show only the next three; small groups show all the others.
+const siblings = sameGroup.length > 7 ? [1, 2, 3].map((n) => sameGroup[(at + n) % sameGroup.length]) : sameGroup.filter((x) => x.slug !== t.slug);
+const eyebrow = 'text-[11px] font-medium uppercase tracking-[0.34em]';
+const h2 = 'mt-6 font-display text-[clamp(2.25rem,4.6vw,3.75rem)] leading-[1.06]';
+const btn = 'inline-flex items-center justify-center gap-3 px-10 py-4 text-[12px] font-semibold uppercase tracking-[0.26em] transition-colors';
+const arrow = '<svg viewBox="0 0 24 24" class="size-4" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>';
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: t.faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+---
+<BaseLayout title={t.seoTitle} description={t.description}>
+  <PageHero
+    title={t.title}
+    eyebrow={`${t.group.title} · ${localCity}`}
+    lede={t.lede}
+    image={t.images.hero}
+    imageAlt={t.images.alt.hero}
+    position={t.images.heroPosition}
+    crumbs={[{ label: 'Home', href: '/' }, { label: t.group.title, href: t.group.href }, { label: t.title }]}
+  />
+
+  <!-- Overview -->
+  <section class="relative isolate overflow-hidden bg-[linear-gradient(180deg,#fff_0%,rgba(201,175,85,.12)_55%,#fff_100%)] py-24 xl:py-32" aria-labelledby="overview-title">
+    <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+      <div class="drift-a absolute -left-24 top-[10%] size-[460px] rounded-full bg-gold/25 blur-[130px]"></div>
+      <div class="drift-b absolute -right-24 bottom-[5%] size-[500px] rounded-full bg-gold/20 blur-[140px]"></div>
+    </div>
+    <div class="mx-auto grid max-w-[1320px] gap-14 px-5 xl:grid-cols-[1.1fr_.9fr] xl:items-center xl:gap-20 xl:px-10">
+      <div>
+        <p class:list={[eyebrow, 'flex items-center gap-4 text-ink/70']}><span class="h-px w-10 bg-gold" aria-hidden="true"></span>Overview</p>
+        <h2 id="overview-title" class:list={[h2, 'text-ink']}>{t.overview.title}</h2>
+        {t.overview.paragraphs.map((p) => <p class="mt-6 max-w-xl text-[17px] leading-relaxed text-ink/80">{p}</p>)}
+        <div class="relative mt-10 grid border-y border-gold/50 sm:grid-cols-2 sm:divide-x sm:divide-gold/30">
+          {t.overview.cards.map((c) => (
+            <div class="group relative px-0 py-8 transition-colors sm:px-8 sm:first:pl-0 sm:last:pr-0">
+              <span class="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-gold transition-transform duration-500 group-hover:scale-x-100" aria-hidden="true"></span>
+              <span class="block size-2 rotate-45 bg-gold transition-transform duration-500 group-hover:rotate-[225deg] group-hover:scale-150" aria-hidden="true"></span>
+              <h3 class="mt-5 font-display text-[24px] leading-tight text-ink transition-colors group-hover:text-[#8a7326]">{c.title}</h3>
+              <p class="mt-3 text-[15px] leading-relaxed text-ink/75">{c.text}</p>
+            </div>
+          ))}
+        </div>
+        <div class="mt-10 flex flex-wrap items-center gap-x-8 gap-y-5">
+          <a href={site.bookUrl} class:list={[btn, 'bg-black text-gold hover:bg-gold hover:text-black']}>Book a consultation <Fragment set:html={arrow} /></a>
+          <a href={`tel:${site.phone}`} class="inline-flex items-center justify-center gap-3 border border-gold px-8 py-[15px] text-[12px] font-semibold uppercase tracking-[0.2em] text-ink transition-colors hover:bg-gold hover:text-black"><svg viewBox="0 0 24 24" class="size-4" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"/></svg>Call {site.phone}</a>
+        </div>
+      </div>
+      <div class="group/img relative mx-auto w-full max-w-[560px] xl:max-w-none">
+        <div class="absolute -bottom-4 -right-4 size-full rounded-img border border-gold/70 transition-transform duration-500 ease-out group-hover/img:translate-x-2 group-hover/img:translate-y-2 xl:-bottom-5 xl:-right-5" aria-hidden="true"></div>
+        <div class="relative overflow-hidden rounded-img shadow-[0_30px_60px_-30px_rgba(28,27,27,.5)] transition-transform duration-500 ease-out group-hover/img:-translate-y-1.5">
+          <img src={t.images.overview} alt={t.images.alt.overview} loading="lazy" class="aspect-square w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(.2,.7,.2,1)] group-hover/img:scale-105" />
+          <span class="pointer-events-none absolute inset-0 rounded-img ring-1 ring-inset ring-gold/0 transition-shadow duration-500 group-hover/img:ring-gold/60" aria-hidden="true"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Is it right for you -->
+  <section class="relative isolate overflow-hidden bg-[linear-gradient(160deg,#2a2826_0%,#1c1b1b_55%,#000_100%)] py-24 text-white xl:py-32" aria-labelledby="fit-title">
+    <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+      <div class="drift-b absolute -right-24 top-[8%] size-[520px] rounded-full bg-gold/20 blur-[130px]"></div>
+    </div>
+    <div class="mx-auto grid max-w-[1320px] gap-14 px-5 xl:grid-cols-[.8fr_1.2fr] xl:gap-20 xl:px-10">
+      <div class="relative mx-auto w-full max-w-[520px] self-start xl:max-w-none">
+        <div class="group/img overflow-hidden rounded-img transition-transform duration-500 ease-out hover:-translate-y-1.5"><img src={t.images.fit} alt={t.images.alt.fit} loading="lazy" class="aspect-square w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(.2,.7,.2,1)] group-hover/img:scale-105" /></div>
+        <span class="absolute inset-3 rounded-img border border-gold/50" aria-hidden="true"></span>
+      </div>
+      <div>
+        <p class:list={[eyebrow, 'flex items-center gap-4 text-white/70']}><span class="h-px w-10 bg-gold" aria-hidden="true"></span>Who it is for</p>
+        <h2 id="fit-title" class:list={[h2]}>{t.fit.title}</h2>
+        <p class="mt-6 max-w-2xl text-[17px] leading-relaxed text-white/75">{t.fit.text}</p>
+        <div class="mt-12 grid gap-10 sm:grid-cols-2">
+          <div>
+            <h3 class="text-[11px] font-semibold uppercase tracking-[0.3em] text-gold">Areas we treat</h3>
+            <ul class="mt-5 grid">
+              {t.fit.concerns.map((c) => (
+                <li class="flex items-start gap-3 border-b border-white/15 py-3 text-[16px] text-white/90"><span class="mt-[9px] size-1.5 shrink-0 rotate-45 bg-gold" aria-hidden="true"></span>{c}</li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-[11px] font-semibold uppercase tracking-[0.3em] text-gold">You may be a good fit if</h3>
+            <ul class="mt-5 grid">
+              {t.fit.goodFit.map((c) => (
+                <li class="flex items-start gap-3 border-b border-white/15 py-3 text-[16px] text-white/90"><span class="mt-[9px] size-1.5 shrink-0 rotate-45 bg-gold" aria-hidden="true"></span>{c}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits -->
+  <section class="relative isolate overflow-hidden bg-[linear-gradient(180deg,#fff_0%,rgba(201,175,85,.1)_100%)] py-24 xl:py-28" aria-labelledby="benefits-title">
+    <div class="mx-auto max-w-[1320px] px-5 xl:px-10">
+      <p class:list={[eyebrow, 'flex items-center gap-4 text-ink/70']}><span class="h-px w-10 bg-gold" aria-hidden="true"></span>Why patients choose it</p>
+      <h2 id="benefits-title" class:list={[h2, 'text-ink']}>Benefits</h2>
+      <ul class="mt-14 grid gap-10 border-t border-ink/20 pt-12 sm:grid-cols-2 xl:grid-cols-4">
+        {t.benefits.map((b) => (
+          <li class="group relative">
+            <span class="absolute -top-12 left-0 h-px w-full origin-left scale-x-0 bg-gold transition-transform duration-500 group-hover:scale-x-100" aria-hidden="true"></span>
+            <span class="block size-2 rotate-45 bg-gold transition-transform duration-500 group-hover:rotate-[225deg] group-hover:scale-150" aria-hidden="true"></span>
+            <h3 class="mt-5 font-display text-[26px] leading-tight text-ink transition-colors group-hover:text-[#8a7326]">{b.title}</h3>
+            <p class="mt-3 text-[16px] leading-relaxed text-ink/75">{b.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- What to expect: a real sequence, so the steps are numbered -->
+  <section class="relative isolate overflow-hidden bg-[linear-gradient(160deg,#35322e,#2a2826)] py-24 text-white xl:py-32" aria-labelledby="steps-title">
+    <div class="pointer-events-none absolute -left-24 top-1/3 -z-10 size-[480px] rounded-full bg-gold/20 blur-[130px] drift-a" aria-hidden="true"></div>
+    <div class="mx-auto grid max-w-[1320px] gap-14 px-5 xl:grid-cols-[.8fr_1.2fr] xl:gap-20 xl:px-10">
+      <div class="xl:sticky xl:top-28 xl:self-start">
+        <p class:list={[eyebrow, 'flex items-center gap-4 text-white/70']}><span class="h-px w-10 bg-gold" aria-hidden="true"></span>Your visit</p>
+        <h2 id="steps-title" class:list={[h2]}>What to expect</h2>
+        <p class="mt-6 max-w-md text-[17px] leading-relaxed text-white/75">From first chat to final result, you always know what comes next.</p>
+      </div>
+      <ol data-steps class="relative grid gap-12 border-l border-gold/25 pl-8 sm:pl-12">
+        <span data-steps-line class="pointer-events-none absolute -left-px top-0 w-px origin-top bg-gold shadow-[0_0_12px_rgba(201,175,85,.8)]" style="height:0;transform:scaleY(0)" aria-hidden="true"></span>
+        {t.steps.map((s, i) => (
+          <li data-step class="group relative cursor-default transition-[opacity,transform] duration-700 ease-[cubic-bezier(.2,.7,.2,1)] data-[on=false]:opacity-35">
+            <span class="absolute -left-[calc(2rem+23px)] -top-1.5 grid size-11 place-items-center rounded-full border border-gold/50 bg-ink transition-all duration-500 group-data-[on=true]:scale-110 group-data-[on=true]:border-gold group-data-[on=true]:shadow-[0_0_0_6px_rgba(201,175,85,.18),0_0_28px_rgba(201,175,85,.45)] sm:-left-[calc(3rem+23px)]">
+              <Image src={logo} alt="" width={64} height={64} class="size-8 object-contain opacity-40 grayscale transition-all duration-500 group-data-[on=true]:opacity-100 group-data-[on=true]:grayscale-0" />
+              <span class="absolute -bottom-1 -right-1.5 grid size-5 place-items-center rounded-full bg-gold font-sans text-[10px] font-semibold leading-none text-black ring-2 ring-[#2a2826]">{i + 1}</span>
+            </span>
+            <h3 class="font-display text-[26px] leading-tight transition-colors duration-500 group-data-[on=true]:text-gold">{s.title}</h3>
+            <p class="mt-3 max-w-xl text-[16px] leading-relaxed text-white/75 transition-colors duration-500 group-data-[on=true]:text-white">{s.text}</p>
+          </li>
+        ))}
+      </ol>
+      <script>
+        const ol = document.querySelector<HTMLElement>('[data-steps]');
+        const line = ol?.querySelector<HTMLElement>('[data-steps-line]');
+        const items = ol ? Array.from(ol.querySelectorAll<HTMLElement>('[data-step]')) : [];
+        if (ol && line && items.length) {
+          let raf = 0;
+          const update = () => {
+            raf = 0;
+            const trigger = window.innerHeight * 0.58;
+            const top = ol.getBoundingClientRect().top;
+            const end = items[items.length - 1].offsetTop + 16;
+            line.style.height = end + 'px';
+            const p = Math.min(1, Math.max(0, (trigger - top) / end));
+            line.style.transform = 'scaleY(' + p + ')';
+            items.forEach((li) => li.dataset.on = String(top + li.offsetTop + 16 <= trigger));
+          };
+          const tick = () => { if (!raf) raf = requestAnimationFrame(update); };
+          window.addEventListener('scroll', tick, { passive: true });
+          window.addEventListener('resize', tick);
+          update();
+        }
+      </script>
+    </div>
+  </section>
+
+  <!-- Safety + FAQ -->
+  <section class="relative isolate overflow-hidden bg-[linear-gradient(180deg,#fff_0%,rgba(201,175,85,.12)_55%,#fff_100%)] py-24 xl:py-32" aria-labelledby="faq-title">
+    <div class="pointer-events-none absolute -right-24 top-[20%] -z-10 size-[500px] rounded-full bg-gold/20 blur-[130px] drift-b" aria-hidden="true"></div>
+    <div class="mx-auto grid max-w-[1320px] gap-14 px-5 xl:grid-cols-2 xl:gap-20 xl:px-10">
+      <div>
+        <p class:list={[eyebrow, 'flex items-center gap-4 text-ink/70']}><span class="h-px w-10 bg-gold" aria-hidden="true"></span>Safety</p>
+        <h2 class:list={[h2, 'text-ink']}>{t.safety.title}</h2>
+        {t.safety.paragraphs.map((p) => <p class="mt-6 max-w-xl text-[17px] leading-relaxed text-ink/80">{p}</p>)}
+        <ul class="mt-8 grid max-w-xl sm:grid-cols-2">
+          {t.safety.items.map((i) => (
+            <li class="flex items-start gap-3 border-b border-ink/15 py-3 text-[15px] text-ink/85"><span class="mt-[8px] size-1.5 shrink-0 rotate-45 bg-gold" aria-hidden="true"></span>{i}</li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <p class:list={[eyebrow, 'flex items-center gap-4 text-ink/70']}><span class="h-px w-10 bg-gold" aria-hidden="true"></span>Questions</p>
+        <h2 id="faq-title" class:list={[h2, 'text-ink']}>Good to know</h2>
+        <div class="mt-10 border-t border-ink/20">
+          {t.faqs.map((f) => (
+            <details class="group border-b border-ink/20">
+              <summary class="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-[17px] font-medium text-ink marker:hidden [&::-webkit-details-marker]:hidden">
+                {f.q}
+                <span class="relative size-5 shrink-0 text-gold" aria-hidden="true">
+                  <span class="absolute left-0 top-1/2 h-px w-full bg-current"></span>
+                  <span class="absolute left-1/2 top-0 h-full w-px bg-current transition-transform duration-300 group-open:scale-y-0"></span>
+                </span>
+              </summary>
+              <p class="max-w-xl pb-6 text-[16px] leading-relaxed text-ink/75">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- More in this category -->
+  {siblings.length > 0 && (
+  <section class="relative isolate overflow-hidden bg-[linear-gradient(180deg,#fff_0%,rgba(201,175,85,.14)_100%)] py-24 xl:py-28" aria-labelledby="more-title">
+    <div class="pointer-events-none absolute -right-24 top-10 -z-10 size-[420px] rounded-full bg-gold/20 blur-[120px] drift-a" aria-hidden="true"></div>
+    <div class="mx-auto max-w-[1320px] px-5 xl:px-10">
+      <p class:list={[eyebrow, 'flex items-center gap-4 text-ink/70']}><span class="h-px w-10 bg-gold" aria-hidden="true"></span>{t.group.title}</p>
+      <h2 id="more-title" class:list={[h2, 'max-w-2xl text-ink']}>{t.group.title === 'Conditions' ? 'Other concerns we help with' : t.group.title === 'Technologies' ? 'More of our technologies' : `More ${t.group.title} treatments`}</h2>
+      <div class={`mt-14 grid gap-x-10 gap-y-12 sm:grid-cols-2 ${siblings.length > 2 ? "lg:grid-cols-3" : ""}`}>
+        {siblings.map((x) => (
+          <a href={`${t.group.href}${x.slug}/`} class="group flex h-full flex-col">
+            <div class="relative">
+              <span class="pointer-events-none absolute -bottom-3 -right-3 left-3 top-3 rounded-img border border-gold/50 transition-transform duration-500 group-hover:translate-x-1 group-hover:translate-y-1" aria-hidden="true"></span>
+              <div class="relative aspect-[5/4] overflow-hidden rounded-img bg-ink shadow-[0_30px_60px_-30px_rgba(28,27,27,.45)]">
+                <img src={x.images.overview} alt={x.images.alt.overview} loading="lazy" class="size-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(.2,.7,.2,1)] group-hover:scale-105" />
+                <span class="absolute inset-0 bg-[linear-gradient(180deg,transparent_55%,rgba(28,27,27,.5)_100%)]" aria-hidden="true"></span>
+              </div>
+            </div>
+            <h3 class="mt-8 font-display text-[clamp(1.5rem,2.2vw,2rem)] leading-tight text-ink transition-colors duration-300 group-hover:text-gold">{x.title}</h3>
+            <p class="mt-3 flex-1 text-[15px] leading-relaxed text-ink/75">{x.lede}</p>
+            <span class="mt-6 inline-flex items-center gap-3 self-start border border-gold px-7 py-3.5 text-[12px] font-semibold uppercase tracking-[0.24em] text-ink transition-colors duration-300 group-hover:bg-gold group-hover:text-black">
+              Learn more
+              <svg viewBox="0 0 24 24" class="size-4 transition-transform duration-300 group-hover:translate-x-1.5" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+  )}
+
+  <!-- Local + related -->
+  <section class="bg-ink py-20 text-white xl:py-24" aria-labelledby="local-title">
+    <div class="mx-auto grid max-w-[1320px] gap-12 px-5 xl:grid-cols-2 xl:gap-20 xl:px-10">
+      <div>
+        <p class:list={[eyebrow, 'flex items-center gap-4 text-white/70']}><span class="h-px w-10 bg-gold" aria-hidden="true"></span>Close to home</p>
+        <h2 id="local-title" class="mt-5 font-display text-[clamp(2rem,3.6vw,3rem)] leading-[1.1]">{t.title} in {localCity}</h2>
+        <p class="mt-5 max-w-xl text-[16px] leading-relaxed text-white/75">Imber Medical is at 1620 Frederica Road. We welcome patients from across the Golden Isles.</p>
+        <ul class="mt-6 flex flex-wrap gap-2">
+          {localAreas.map((a) => <li class="rounded-full border border-white/25 px-4 py-1.5 text-[13px] text-white/85">{a}</li>)}
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-[11px] font-semibold uppercase tracking-[0.3em] text-gold">More in {t.group.title}</h3>
+        <ul class="mt-5 grid gap-3">
+          {t.related.map((r) => (
+            <li>
+              <a href={r.href} class="group/l flex items-center justify-between gap-4 border border-white/25 px-5 py-3.5 text-[15px] text-white/90 transition-colors duration-300 hover:border-gold hover:bg-gold hover:text-black">
+                <span>{r.label}</span>
+                <svg viewBox="0 0 24 24" class="size-4 shrink-0 text-gold transition-all duration-300 group-hover/l:translate-x-1 group-hover/l:text-black" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+</BaseLayout>

@@ -1,0 +1,10 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+---
+<div class="fixed inset-x-0 bottom-0 z-50 flex h-12 text-[18px] text-white xl:hidden">
+  <a href={`tel:${site.phone}`} class="flex w-1/2 items-center justify-center gap-3 bg-black">
+    <Icon name="phone" class="size-5" />{site.phone}
+  </a>
+  <a href={site.bookUrl} class="flex w-1/2 items-center justify-center bg-gold">Book Online</a>
+</div>

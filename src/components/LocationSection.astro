@@ -1,0 +1,85 @@
+---
+import ReviewsCard from './islands/ReviewsCard';
+import { location, sampleReviews } from '../data/location';
+import { site } from '../data/site';
+
+const feedUrl = import.meta.env.PUBLIC_GOOGLE_REVIEWS_URL as string | undefined;
+---
+<section class="relative isolate overflow-hidden bg-[linear-gradient(180deg,#fff_0%,rgba(201,175,85,.10)_60%,#fff_100%)] py-24 xl:py-32" aria-labelledby="visit-title">
+  <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+    <div class="drift-b absolute -right-24 -top-16 size-[480px] rounded-full bg-gold/25 blur-[120px]"></div>
+    <div class="drift-a absolute -bottom-28 -left-20 size-[460px] rounded-full bg-gold/20 blur-[120px]"></div>
+  </div>
+
+  <div class="mx-auto grid max-w-[1320px] items-center gap-16 px-5 xl:grid-cols-[7fr_5fr] xl:gap-24 xl:px-10">
+    <!-- LEFT: Google-style business profile -->
+    <div>
+      <div class="grid grid-cols-2 gap-3 sm:gap-5">
+        <div class="aspect-square overflow-hidden rounded-img bg-fog shadow-[0_14px_30px_-18px_rgba(28,27,27,.55)]">
+          <img src={location.photo} alt="The Imber Medical building on Frederica Road, St. Simons Island" width="765" height="765" loading="lazy" class="size-full object-cover" />
+        </div>
+        <div class="group relative aspect-square overflow-hidden rounded-img bg-fog shadow-[0_14px_30px_-18px_rgba(28,27,27,.55)]">
+          <iframe
+            src={location.mapEmbed}
+            title="Map showing Imber Medical on Frederica Road"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            tabindex="-1"
+            class="pointer-events-none absolute inset-0 size-full border-0 grayscale-[.85] sepia-[.25] transition-[filter] duration-700 group-hover:grayscale-0 group-hover:sepia-0"
+          ></iframe>
+          <a href={location.directions} target="_blank" rel="noopener noreferrer" class="absolute inset-0" aria-label="Get directions to Imber Medical in Google Maps">
+            <span class="absolute left-3 top-3 bg-white px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-ink shadow">Open in Maps ↗</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="relative -mt-5 px-2 sm:-mt-14 sm:px-8">
+        <ReviewsCard
+          client:visible
+          name={location.name}
+          category={location.category}
+          rating={Number(site.rating.score)}
+          total={site.rating.count}
+          reviewsUrl={site.rating.href}
+          reviews={sampleReviews}
+          feedUrl={feedUrl}
+        />
+      </div>
+    </div>
+
+    <!-- RIGHT: heading + visit details -->
+    <div>
+      <p class="flex items-center gap-4 text-[11px] font-medium uppercase tracking-[0.34em] text-ink/70">
+        <span class="h-px w-10 bg-gold" aria-hidden="true"></span>Visit us
+      </p>
+      <h2 id="visit-title" class="mt-6 font-display text-[clamp(2.25rem,8vw,3.25rem)] leading-[1.1] xl:text-[44px] 2xl:text-[52px] text-ink">
+        Refined Beauty. <span class="block">Elevated Confidence.</span>
+      </h2>
+      <p class="mt-6 max-w-lg text-[17px] leading-relaxed text-ink/80">
+        Imber Medical is a premier anti-aging and advanced aesthetics practice in St. Simons Island, led by Board Certified Physician Laura Slack, MD. The practice blends medical excellence with artistic precision to deliver natural, youthful results.
+      </p>
+
+      <dl class="mt-10 border-t border-ink/15 text-[15px]">
+        <div class="grid grid-cols-[110px_1fr] gap-4 border-b border-ink/15 py-5">
+          <dt class="text-[11px] font-semibold uppercase tracking-[0.22em] text-ink/60">Address</dt>
+          <dd class="text-ink">{location.address[0]}<br />{location.address[1]}</dd>
+        </div>
+        <div class="grid grid-cols-[110px_1fr] gap-4 border-b border-ink/15 py-5">
+          <dt class="text-[11px] font-semibold uppercase tracking-[0.22em] text-ink/60">Hours</dt>
+          <dd class="text-ink">
+            {location.hours.map((h) => (<span class="block">{h.days}: {h.time}</span>))}
+          </dd>
+        </div>
+        <div class="grid grid-cols-[110px_1fr] gap-4 border-b border-ink/15 py-5">
+          <dt class="text-[11px] font-semibold uppercase tracking-[0.22em] text-ink/60">Call</dt>
+          <dd><a href={`tel:${site.phone}`} class="inline-flex items-center border border-gold px-5 py-2 text-ink transition-colors hover:bg-gold hover:text-black">{site.phone}</a></dd>
+        </div>
+      </dl>
+
+      <div class="mt-10 flex flex-wrap gap-4">
+        <a href={location.directions} target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center bg-black px-9 py-4 text-[12px] font-semibold uppercase tracking-[0.26em] text-gold transition-colors hover:bg-gold hover:text-black">Get directions</a>
+        <a href={site.bookUrl} class="inline-flex items-center justify-center border border-ink px-9 py-4 text-[12px] font-semibold uppercase tracking-[0.26em] text-ink transition-colors hover:bg-ink hover:text-white">Book online</a>
+      </div>
+    </div>
+  </div>
+</section>

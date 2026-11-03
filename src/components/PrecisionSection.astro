@@ -1,0 +1,70 @@
+---
+import { precision as p } from '../data/precision';
+---
+<section
+  class="relative isolate overflow-hidden bg-[radial-gradient(ellipse_60%_50%_at_15%_25%,rgba(201,175,85,.15),transparent_70%),linear-gradient(160deg,#35322e_0%,#2a2826_100%)] py-20 text-white xl:py-28"
+  aria-labelledby="precision-title"
+>
+  <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+    <div class="drift-b absolute -right-24 top-[20%] size-[460px] rounded-full bg-gold/10 blur-[130px]"></div>
+    <div class="drift-a absolute -bottom-32 left-[20%] size-[480px] rounded-full bg-gold/10 blur-[140px]"></div>
+  </div>
+
+  <div class="mx-auto max-w-[1320px] px-5 xl:px-10">
+    <!-- Row 1: all the story on the left, the photo on the right -->
+    <div class="grid items-center gap-12 xl:grid-cols-[6fr_5fr] xl:gap-20">
+      <div>
+        <p class="flex items-center gap-4 text-[11px] font-medium uppercase tracking-[0.34em] text-gold">
+          <span class="h-px w-10 bg-gold" aria-hidden="true"></span>Imber Medical
+        </p>
+        <h2 id="precision-title" class="mt-6 font-display text-[clamp(2.25rem,4.6vw,3.9rem)] leading-[1.08] text-white">{p.intro.title}</h2>
+        <p class="mt-6 max-w-[620px] text-[16px] leading-[1.8] text-white/75">{p.intro.text}</p>
+
+        <span class="my-9 block h-px w-full max-w-[620px] bg-gradient-to-r from-gold/60 to-transparent" aria-hidden="true"></span>
+
+        <h3 class="font-display text-[clamp(1.6rem,2.6vw,2.3rem)] leading-[1.15] text-white">{p.detail.title}</h3>
+        <p class="mt-4 max-w-[620px] text-[16px] leading-[1.8] text-white/75">{p.detail.text}</p>
+      </div>
+
+      <div class="group/img relative mx-auto w-full max-w-[520px] pb-4 pr-4 xl:max-w-none">
+        <div class="absolute inset-0 translate-x-4 translate-y-4 rounded-img border border-gold/70 transition-transform duration-500 ease-out group-hover/img:translate-x-6 group-hover/img:translate-y-6" aria-hidden="true"></div>
+        <div class="relative overflow-hidden rounded-img shadow-[0_40px_80px_-30px_rgba(0,0,0,.6)] transition-[transform,box-shadow] duration-500 ease-out group-hover/img:-translate-y-1.5">
+          <img
+          src={p.image}
+          alt="A client receiving a facial treatment at Imber Medical"
+          width="1080"
+          height="1080"
+          loading="lazy"
+          class="aspect-square w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(.2,.7,.2,1)] group-hover/img:scale-105"
+        />
+          <span class="pointer-events-none absolute inset-0 rounded-img ring-1 ring-inset ring-gold/0 transition-shadow duration-500 group-hover/img:ring-gold/60" aria-hidden="true"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 2: the four reasons side by side -->
+    <div class="mt-16 border-t border-white/15 pt-8 xl:mt-20">
+      <ul class="grid gap-x-4 gap-y-4 sm:-mx-5 sm:grid-cols-2 xl:grid-cols-4">
+        {p.detail.points.map((x) => (
+          <li class="group relative rounded-img py-6 transition-[transform,background-color,box-shadow] duration-500 ease-out hover:-translate-y-2 hover:bg-white/[.06] hover:shadow-[0_24px_40px_-24px_rgba(0,0,0,.7)] hover:ring-1 hover:ring-gold/30 sm:px-5">
+            <!-- gold line draws across the top -->
+            <span class="absolute left-0 right-0 top-0 h-[2px] origin-left scale-x-0 rounded-full bg-gold transition-transform duration-700 ease-out group-hover:scale-x-100" aria-hidden="true"></span>
+            <span class="block size-[7px] rotate-45 bg-gold transition-transform duration-500 group-hover:rotate-[225deg] group-hover:scale-[1.8]" aria-hidden="true"></span>
+            <h4 class="mt-5 font-display text-[22px] leading-[30px] text-white transition-colors duration-500 group-hover:text-gold">{x.title}</h4>
+            <p class="mt-2 text-[15px] leading-[24px] text-white/70 transition-colors duration-500 group-hover:text-white">{x.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="mt-12 flex justify-center">
+      <a
+        href={p.href}
+        class="inline-flex items-center justify-center gap-3 bg-gold px-10 py-4 text-[12px] font-semibold uppercase tracking-[0.26em] text-black transition-colors hover:bg-white"
+      >
+        Learn more
+        <svg viewBox="0 0 24 24" class="size-4" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+      </a>
+    </div>
+  </div>
+</section>

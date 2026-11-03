@@ -1,0 +1,33 @@
+---
+import { Image } from 'astro:assets';
+import banner from '../assets/2nd-banner.png';
+
+const bio =
+  'Dr. Slack completed her undergraduate with honors from the University of North Carolina Wilmington. She also pursued additional study at the Roehampton University of London in the United Kingdom before participating in medical elective and mission work in China, the West Indies, and West Africa. After completing her medical studies there and her clinical studies in New York, she achieved board certification in family and geriatric medicine, along with certification in aesthetic medicine and anti-aging by the American Academy of Procedural Medicine (AAPM).';
+---
+<section class="relative isolate my-[2px] flex xl:min-h-[100svh] xl:justify-end">
+  <Image
+    src={banner}
+    alt="Dr. Laura Slack and her husband in the Imber Medical treatment room"
+    widths={[900, 1400, 2100]}
+    sizes="100vw"
+    loading="lazy"
+    class="absolute inset-0 -z-20 h-full w-full object-cover object-left-top"
+  />
+  <!-- White veil on small screens, white fade from the middle on desktop -->
+  <div class="absolute inset-0 -z-10 bg-white/75 xl:bg-transparent xl:bg-[linear-gradient(90deg,rgba(2,1,1,0)_30%,#fff_50%)]" aria-hidden="true"></div>
+
+  <div class="flex w-full flex-col items-center justify-center p-[10px] xl:w-1/2 xl:pb-[100px] xl:pl-[30px] xl:pr-[60px] xl:pt-[60px]">
+    <div class="flex w-full max-w-[600px] flex-col gap-5 p-[10px] text-center text-black xl:text-left">
+      <h2 class="font-display text-[30px] font-normal capitalize leading-10 xl:text-[65px] xl:leading-[60px]">Laura Slack, MD</h2>
+      <p class="font-karla text-[17px] font-medium capitalize leading-[25px] xl:text-[24px] xl:leading-[34px]">Board Certified Physician</p>
+      <p class="text-[16px] leading-6 xl:pt-5 xl:text-[18px] xl:leading-[27px]">{bio}</p>
+      <div>
+        <a
+          href="/contact-us"
+          class="inline-block rounded-[5px] border-2 border-gold bg-gold p-[15px] text-[18px] font-medium capitalize leading-[18px] text-black transition-opacity hover:opacity-85 xl:px-10 xl:py-5"
+        >Contact Us</a>
+      </div>
+    </div>
+  </div>
+</section>
