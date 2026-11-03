@@ -1,0 +1,93 @@
+---
+import type { MenuItem } from '../../data/site';
+interface Props { items: MenuItem[] }
+const panels = Astro.props.items.filter((i) => i.mega);
+type Entry = { title: string; href: string; sub?: boolean; links?: { label: string; href: string }[] };
+const flat = (groups: Entry[]): Entry[] => groups.flatMap((g) => [g, ...(g.links ?? []).map((l) => ({ title: l.label, href: l.href, sub: true }))]);
+const colClass = { 2: 'grid-cols-2', 3: 'grid-cols-3' } as const;
+---
+<!-- Shared panel: one white surface sits under the header and resizes between menus, so switching never flickers. -->
+<div
+  id="mega-wrap"
+  data-mega-wrap
+  data-open="false"
+  class="invisible absolute inset-x-0 top-full z-50 hidden h-0 overflow-hidden border-t border-ink/10 bg-white opacity-0 shadow-[0_40px_60px_-30px_rgba(0,0,0,.35)] transition-[height,opacity,visibility] duration-[350ms] ease-[cubic-bezier(.2,.7,.2,1)] data-[open=true]:visible data-[open=true]:opacity-100 xl:block"
+>
+  {panels.map((item) => {
+    const m = item.mega!;
+    return (
+      <div
+        data-mega-panel={item.id}
+        data-active="false"
+        role="region"
+        aria-label={item.label}
+        class="invisible absolute inset-x-0 top-0 opacity-0 transition-opacity duration-200 data-[active=true]:visible data-[active=true]:opacity-100"
+      >
+        <div class="mx-auto grid max-w-[1400px] grid-cols-[320px_1fr] gap-14 px-8 py-10">
+          <div class="mega-item relative self-start overflow-hidden rounded-img bg-[linear-gradient(160deg,#1c1b1b,#2b2825)] p-9 text-white" style="--i:0">
+            <span class="absolute inset-x-0 top-0 h-[3px] bg-gold" aria-hidden="true"></span>
+            <p class="flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.3em] text-gold">
+              <span class="h-px w-8 bg-gold" aria-hidden="true"></span>{m.eyebrow}
+            </p>
+            <p class="mt-5 font-display text-[38px] leading-[1.08] text-white">{m.title}</p>
+            <p class="mt-4 text-[15px] leading-relaxed text-white/70">{m.text}</p>
+            {m.cta && (
+              <a href={m.cta.href} class="group/c mt-8 inline-flex items-center gap-3 rounded-[5px] bg-gold whitespace-nowrap px-5 py-3.5 text-[11.5px] font-semibold uppercase tracking-[0.14em] text-ink transition-colors hover:bg-[#d8c26f]">
+                {m.cta.label}
+                <svg viewBox="0 0 24 24" class="size-4 transition-transform group-hover/c:translate-x-1" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+              </a>
+            )}
+          </div>
+
+          {m.variant === 'groups' ? (
+            <div class:list={['grid content-start gap-x-10', colClass[m.cols]]}>
+              {Array.from({ length: m.cols }, (_, c) => m.groups.filter((g) => (g.col ?? 0) === c)).map((col, ci) => (
+                <div class="grid content-start gap-7">
+                  {col.map((g, i) => (
+                    <div class="mega-item" style={`--i:${ci * 3 + i + 1}`}>
+                      <a href={g.href} class="group/l flex items-center gap-3 font-display text-[19px] leading-snug text-ink transition-colors hover:text-[#8a7326]">
+                        <span class="size-1.5 shrink-0 rotate-45 bg-gold transition-transform duration-300 group-hover/l:rotate-[225deg] group-hover/l:scale-150" aria-hidden="true"></span>
+                        {g.title}
+                      </a>
+                      {g.links && (
+                        <ul class="mt-1.5 grid">
+                          {g.links.map((l) => (
+                            <li>
+                              <a href={l.href} class="group/s relative flex items-center justify-between gap-3 border-b border-ink/10 py-2 text-[14.5px] leading-snug text-ink/75 transition-colors hover:text-black">
+                                <span class="transition-transform duration-300 group-hover/s:translate-x-1.5">{l.label}</span>
+                                <svg viewBox="0 0 24 24" class="size-4 shrink-0 -translate-x-2 text-gold opacity-0 transition-all duration-300 group-hover/s:translate-x-0 group-hover/s:opacity-100" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                                <span class="absolute -bottom-px left-0 h-px w-full origin-left scale-x-0 bg-gold transition-transform duration-500 group-hover/s:scale-x-100" aria-hidden="true"></span>
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <ul class:list={['grid content-start gap-x-10 auto-rows-[3.5rem]', m.cols === 2 ? 'grid-cols-2' : 'grid-cols-3']}>
+              {flat(m.groups).map((g, i) => (
+                <li class="mega-item" style={`--i:${i + 1}`}>
+                  <a
+                    href={g.href}
+                    {...(g.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                    class:list={['group/l relative flex h-full items-center justify-between gap-4 border-b border-ink/10 transition-colors hover:text-black', g.sub ? 'py-2 pl-6 text-[14px] leading-snug text-ink/65' : 'py-2 text-[15px] leading-snug text-ink/85']}
+                  >
+                    <span class="flex items-center gap-2.5 transition-transform duration-300 group-hover/l:translate-x-1.5">
+                      {g.sub && <span class="size-1 rotate-45 bg-gold" aria-hidden="true"></span>}{g.title}
+                    </span>
+                    <svg viewBox="0 0 24 24" class="size-4 shrink-0 -translate-x-2 text-gold opacity-0 transition-all duration-300 group-hover/l:translate-x-0 group-hover/l:opacity-100" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                    <span class="absolute -bottom-px left-0 h-px w-full origin-left scale-x-0 bg-gold transition-transform duration-500 group-hover/l:scale-x-100" aria-hidden="true"></span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+    );
+  })}
+</div>

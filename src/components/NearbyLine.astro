@@ -1,0 +1,13 @@
+---
+import { localAreas } from '../data/treatments';
+// "Patients are welcome from across ..." line with a map-pin icon, shown on dark bands.
+const areas = localAreas.slice(0, -1);
+const last = localAreas[localAreas.length - 1];
+const text = `Patients are welcome from across ${areas.join(', ')} and the greater ${last} area.`;
+---
+<div class="border-t border-white/15 pt-8">
+  <p class="flex items-start gap-4 text-[17px] font-light leading-[1.8] text-white/90 xl:text-[18px]">
+    <svg viewBox="0 0 24 24" class="mt-1.5 size-5 shrink-0 text-gold" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.2A7 7 0 0 1 19 9.800C19 14.800 12 21 12 21z"/><circle cx="12" cy="9.800" r="2.500"/></svg>
+    <span>{text}</span>
+  </p>
+</div>

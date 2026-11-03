@@ -5,6 +5,7 @@ import { conditionsA } from './treatments-extra/conditions-a';
 import { conditionsB } from './treatments-extra/conditions-b';
 import { conditionsC } from './treatments-extra/conditions-c';
 import { conditionsD } from './treatments-extra/conditions-d';
+import { skinTightening } from './treatments-extra/skin-tightening';
 import { techA } from './treatments-extra/technologies-a';
 import { techB } from './treatments-extra/technologies-b';
 import { techC } from './treatments-extra/technologies-c';
@@ -670,4 +671,4 @@ const base: Treatment[] = [
   },
 ];
 
-export const treatments: Treatment[] = [...base, ...tattooSexualBody, ...skin, ...wellness, ...conditionsA, ...conditionsB, ...conditionsC, ...conditionsD, ...techA, ...techB, ...techC, ...techD];
+export const treatments: Treatment[] = [...base, ...tattooSexualBody, ...skin, ...skinTightening, ...wellness, ...conditionsA, ...conditionsB, ...conditionsC, ...conditionsD, ...techA, ...techB, ...techC, ...techD];

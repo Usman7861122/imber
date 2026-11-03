@@ -37,7 +37,7 @@ const menu: MenuItem[] = [
         ] },
         { title: 'Tattoo Removal', href: '/tattoo-removal/', col: 0, links: subs('/tattoo-removal', ['Body/Brow Tattoo Removal']) },
         { title: 'Skin & Facial Rejuvenation', href: '/skin-facial-rejuvenation/', col: 1, links: subs('/skin-facial-rejuvenation', [
-          'Laser Facial', 'RF Microneedling', 'Medical Facials & HydraFacial', 'Chemical Peels (VI Peel)', 'Microneedling PRP/PRF', 'Regenerative Cells', 'Plated Calm',
+          'Laser Facial', 'RF Microneedling', 'Skin Tightening', 'Medical Facials & HydraFacial', 'Chemical Peels (VI Peel)', 'Microneedling PRP/PRF', 'Regenerative Cells', 'Plated Calm',
         ]) },
         { title: 'Sexual Wellness', href: '/sexual-wellness/', col: 1, links: subs('/sexual-wellness', ['Male Health', 'Female Health (Vaginal Rejuv)']) },
         { title: 'Wellness & Medical Weight Loss', href: '/wellness-medical-weight-loss/', col: 2, links: [

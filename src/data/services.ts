@@ -35,7 +35,7 @@ export const featuredServices: Service[] = [
 // Each home-page card links to its page in the new treatment structure.
 const hrefs: Record<string, string> = {
   'body-contouring': '/body-contouring-sculpting/fat-reduction-body-contouring/',
-  'skin-tightening': '/skin-facial-rejuvenation/rf-microneedling/',
+  'skin-tightening': '/skin-facial-rejuvenation/skin-tightening/',
   'laser-hair-removal': '/hair-restoration-removal/laser-hair-removal/',
   'fillers-neurotoxins': '/injectables-toxins/filler-tox/',
   'laser-liposuction': '/body-contouring-sculpting/',

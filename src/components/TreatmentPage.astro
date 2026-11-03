@@ -4,7 +4,7 @@ import logo from '../assets/logo.webp';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from './PageHero.astro';
 import { site } from '../data/site';
-import { localCity, localAreas, treatments } from '../data/treatments';
+import { localCity, treatments } from '../data/treatments';
 import type { Treatment } from '../data/treatments';
 
 interface Props { t: Treatment }
@@ -32,6 +32,7 @@ const faqLd = {
     imageAlt={t.images.alt.hero}
     position={t.images.heroPosition}
     crumbs={[{ label: 'Home', href: '/' }, { label: t.group.title, href: t.group.href }, { label: t.title }]}
+    nearby
   />
 
   <!-- Overview -->
@@ -243,9 +244,6 @@ const faqLd = {
         <p class:list={[eyebrow, 'flex items-center gap-4 text-white/70']}><span class="h-px w-10 bg-gold" aria-hidden="true"></span>Close to home</p>
         <h2 id="local-title" class="mt-5 font-display text-[clamp(2rem,3.6vw,3rem)] leading-[1.1]">{t.title} in {localCity}</h2>
         <p class="mt-5 max-w-xl text-[16px] leading-relaxed text-white/75">Imber Medical is at 1620 Frederica Road. We welcome patients from across the Golden Isles.</p>
-        <ul class="mt-6 flex flex-wrap gap-2">
-          {localAreas.map((a) => <li class="rounded-full border border-white/25 px-4 py-1.5 text-[13px] text-white/85">{a}</li>)}
-        </ul>
       </div>
       <div>
         <h3 class="text-[11px] font-semibold uppercase tracking-[0.3em] text-gold">More in {t.group.title}</h3>

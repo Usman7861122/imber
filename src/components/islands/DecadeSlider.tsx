@@ -27,7 +27,7 @@ export default function DecadeSlider({ decades, bookUrl }: { decades: Decade[]; 
       role="region"
       aria-roledescription="carousel"
       aria-label="Treatments by decade"
-      className="relative bg-white xl:h-[100svh] xl:max-h-[980px] xl:min-h-[760px] xl:overflow-hidden"
+      className="relative bg-white xl:h-[100svh] xl:max-h-[980px] xl:min-h-[840px] xl:overflow-hidden"
       onTouchStart={(e) => (startX.current = e.touches[0].clientX)}
       onTouchEnd={(e) => {
         if (startX.current === null) return;
@@ -57,7 +57,7 @@ export default function DecadeSlider({ decades, bookUrl }: { decades: Decade[]; 
           role="tablist"
           aria-label="Choose a decade"
           onKeyDown={onKey}
-          className="absolute inset-x-4 bottom-4 flex justify-between gap-1 rounded-img bg-white/85 p-1.5 shadow-[0_20px_40px_-20px_rgba(0,0,0,.5)] backdrop-blur-md sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:justify-center xl:bottom-auto xl:left-auto xl:right-10 xl:top-8 xl:translate-x-0"
+          className="absolute z-20 inset-x-4 bottom-4 flex justify-between gap-1 rounded-img bg-white/85 p-1.5 shadow-[0_20px_40px_-20px_rgba(0,0,0,.5)] backdrop-blur-md sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:justify-center xl:bottom-auto xl:left-auto xl:right-10 xl:top-8 xl:translate-x-0"
         >
           {decades.map((x, k) => (
             <button
@@ -80,11 +80,12 @@ export default function DecadeSlider({ decades, bookUrl }: { decades: Decade[]; 
       </div>
 
       {/* CONTENT: glass card on desktop, plain block on phones */}
-      <div className="px-5 py-12 xl:absolute xl:right-10 xl:top-[calc(50%+36px)] xl:w-[580px] xl:-translate-y-1/2 xl:p-10 2xl:w-[620px] 2xl:p-12">
+      <div className="px-5 py-12 xl:absolute xl:bottom-4 xl:right-10 xl:top-28 xl:flex xl:w-[580px] xl:overflow-y-auto xl:p-8 2xl:w-[620px] 2xl:p-10">
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={d.decade}
             role="tabpanel"
+            className="xl:my-auto"
             id="decade-panel"
             aria-labelledby={`decade-tab-${i}`}
             initial={reduce ? false : { opacity: 0, y: 20 }}
@@ -97,7 +98,7 @@ export default function DecadeSlider({ decades, bookUrl }: { decades: Decade[]; 
             </p>
 
             <h3 className="mt-5 flex flex-wrap items-baseline gap-x-5 gap-y-1">
-              <span className="font-display text-[72px] leading-[1] text-ink xl:text-[96px]">{d.decade}</span>
+              <span className="font-display text-[72px] leading-[1] text-ink xl:text-[96px] xl:[@media(max-height:860px)]:text-[76px]">{d.decade}</span>
               <span className="text-[12px] font-semibold uppercase tracking-[0.3em] text-ink xl:text-[13px]">{d.name}</span>
             </h3>
 

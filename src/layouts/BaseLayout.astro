@@ -5,12 +5,14 @@ import '@fontsource-variable/inter';
 import '@fontsource-variable/karla';
 import '../styles/global.css';
 import Header from '../components/Header.astro';
+import Header2 from '../components/home2/Header.astro';
+import Header3 from '../components/home3/Header.astro';
 import Footer from '../components/Footer.astro';
 import MobileBar from '../components/MobileBar.astro';
 import { site } from '../data/site';
 
-interface Props { title?: string; description?: string; overlayHeader?: boolean }
-const { title, description = site.description, overlayHeader = false } = Astro.props;
+interface Props { title?: string; description?: string; overlayHeader?: boolean; noindex?: boolean; home2?: boolean; home3?: boolean }
+const { title, description = site.description, overlayHeader = false, noindex = false, home2 = false, home3 = false } = Astro.props;
 const pageTitle = title ? `${title} | ${site.name}` : `${site.name} | ${site.tagline}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
@@ -18,6 +20,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
@@ -30,8 +33,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
   </head>
-  <body class="flex min-h-screen flex-col pb-12 xl:pb-0">
-    <Header overlay={overlayHeader} />
+  <body class:list={["flex min-h-screen flex-col pb-12 xl:pb-0", (home2 || home3) && "home2"]}>
+    {home3 ? <Header3 overlay={overlayHeader} /> : home2 ? <Header2 overlay={overlayHeader} /> : <Header overlay={overlayHeader} />}
     <main class="flex-1"><slot /></main>
     <Footer />
     <MobileBar />

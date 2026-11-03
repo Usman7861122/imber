@@ -1,0 +1,172 @@
+---
+import { Image } from 'astro:assets';
+import img1 from '../../assets/home3/filler-tox.jpg';
+import img2 from '../../assets/home3/facial-slimming.jpg';
+import img3 from '../../assets/home3/fat-grafting.jpg';
+import { site } from '../../data/site';
+
+const slides = [
+  {
+    off: '16%', img: img1, pos: '50% 40%', tag: 'Injectables', eyebrow: 'Injectables & skin care · St. Simons Island, GA',
+    l1: 'Radiant skin,', l2: 'naturally refined.',
+    text: 'Physician-led Botox, fillers and laser facials, planned around your face and your goals.',
+    cta: { label: 'Explore injectables', href: '/injectables-toxins/' },
+    alt: 'A woman with a calm, glowing face and smooth neck after an injectable treatment',
+  },
+  {
+    off: '0%', img: img2, pos: '85% 28%', tag: 'Contouring', eyebrow: 'Face & body contouring · Golden Isles',
+    l1: 'Defined contours,', l2: 'gently sculpted.',
+    text: 'Jaw, face and body contouring with advanced, comfortable technology and no long downtime.',
+    cta: { label: 'See contouring', href: '/body-contouring-sculpting/' },
+    alt: 'Soft studio portrait of a woman with a defined jawline and neck',
+  },
+  {
+    off: '14%', img: img3, pos: '60% 35%', tag: 'Rejuvenation', eyebrow: 'Skin rejuvenation · St. Simons Island, GA',
+    l1: 'A healthy glow,', l2: 'that lasts.',
+    text: 'Peels, microneedling and regenerative treatments that renew your skin and keep it bright.',
+    cta: { label: 'Discover rejuvenation', href: '/skin-facial-rejuvenation/' },
+    alt: 'A smiling woman with curly hair and fresh, glowing skin',
+  },
+];
+---
+<section class="hero3 relative isolate h-[100svh] min-h-[640px] overflow-hidden bg-ink xl:rounded-br-[120px]" data-hero3 aria-roledescription="carousel" aria-label="Featured treatments at Imber Medical">
+  {slides.map((s, i) => (
+    <article class:list={['h3s absolute inset-0', i === 0 && 'is-active']} data-slide aria-roledescription="slide" aria-label={`${i + 1} of ${slides.length}`} inert={i !== 0}>
+      <div class="absolute inset-0 -z-20 overflow-hidden xl:left-[var(--off)] xl:[mask-image:linear-gradient(90deg,transparent,#000_28%)]" style={`--off:${s.off}`}>
+        <Image src={s.img} alt={s.alt} widths={[900, 1400, 2000]} sizes="100vw" loading={i === 0 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : 'auto'} class="h3-kb h-full w-full object-cover" style={`object-position:${s.pos}`} />
+      </div>
+      <div class="absolute inset-0 -z-10 bg-[linear-gradient(0deg,rgba(28,27,27,.85)_0%,rgba(28,27,27,.35)_55%,rgba(28,27,27,.15)_100%)] xl:bg-[linear-gradient(90deg,rgba(28,27,27,.78)_0%,rgba(28,27,27,.5)_32%,rgba(28,27,27,.12)_52%,transparent_62%)]" aria-hidden="true"></div>
+
+      <div class="mx-auto flex h-full w-full max-w-[1240px] items-end px-6 pb-[190px] pt-[110px] xl:items-center xl:px-8 xl:pb-[110px] xl:pt-[110px]">
+        <div class="w-full max-w-[640px]">
+          <p class="h3rv flex items-center gap-3 text-[12px] font-medium uppercase tracking-[0.2em] text-gold xl:text-[13px] xl:tracking-[0.22em]" style="--d:.1s">
+            <span class="h-px w-8 shrink-0 bg-gold xl:w-10" aria-hidden="true"></span>{s.eyebrow}
+          </p>
+          {i === 0 ? (
+            <h1 class="mt-5 font-display text-[40px] leading-[1.1] text-white xl:text-[64px]">
+              <span class="h3line"><span class="h3rv" style="--d:.2s">{s.l1}</span></span>
+              <span class="h3line text-gold"><span class="h3rv" style="--d:.34s">{s.l2}</span></span>
+            </h1>
+          ) : (
+            <h2 class="mt-5 font-display text-[40px] leading-[1.1] text-white xl:text-[64px]">
+              <span class="h3line"><span class="h3rv" style="--d:.2s">{s.l1}</span></span>
+              <span class="h3line text-gold"><span class="h3rv" style="--d:.34s">{s.l2}</span></span>
+            </h2>
+          )}
+          <p class="h3rv mt-5 max-w-[500px] text-[17px] leading-[1.65] text-white/85 xl:mt-6 xl:text-[19px]" style="--d:.5s">{s.text}</p>
+          <div class="h3rv mt-7 flex flex-wrap items-center gap-4 xl:mt-9" style="--d:.65s">
+            <a href={s.cta.href} class="h3glow group">
+              <span class="h3glow-in">{s.cta.label}
+                <svg class="size-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </span>
+            </a>
+            <a href={site.bookUrl} class="h3ghost">Book online</a>
+          </div>
+        </div>
+      </div>
+    </article>
+  ))}
+
+  <!-- Controls: progress per slide, slide counter, arrows -->
+  <div class="absolute inset-x-0 bottom-0 z-10 pb-20 xl:pb-10">
+    <div class="mx-auto flex max-w-[1240px] items-end justify-between gap-6 px-6 xl:px-8">
+      <ol class="flex flex-1 gap-3 xl:max-w-[640px] xl:gap-4" aria-label="Choose a slide">
+        {slides.map((s, i) => (
+          <li class="flex-1">
+            <button type="button" data-dot={i} aria-label={`Show slide ${i + 1}: ${s.tag}`} class:list={['h3dot group block w-full text-left', i === 0 && 'is-active']}>
+              <span class="block h-[3px] w-full overflow-hidden rounded-full bg-white/25"><span class="h3bar block h-full w-full origin-left bg-gold"></span></span>
+              <span class="mt-3 flex items-center gap-2 text-[12px] uppercase tracking-[0.18em] text-white/55 transition-colors group-hover:text-white">
+                <span class="font-display text-[15px] tracking-normal">0{i + 1}</span><span class="hidden sm:inline">{s.tag}</span>
+              </span>
+            </button>
+          </li>
+        ))}
+      </ol>
+      <div class="hidden items-center gap-3 xl:flex">
+        <button type="button" data-prev aria-label="Previous slide" class="h3arrow"><svg viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
+        <button type="button" data-next aria-label="Next slide" class="h3arrow"><svg viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </div>
+    </div>
+  </div>
+  <!-- Soft top shade so the transparent header stays readable -->
+  <div class="pointer-events-none absolute inset-x-0 top-0 z-[1] h-[170px] bg-gradient-to-b from-ink/60 to-transparent max-xl:hidden" aria-hidden="true"></div>
+</section>
+
+<style is:global>
+  .h3s { opacity: 0; visibility: hidden; transition: opacity 1s ease, visibility 0s 1s; z-index: 0; }
+  .h3s.is-active { opacity: 1; visibility: visible; transition: opacity 1s ease; z-index: 1; }
+  .h3-kb { transform: scale(1.12); transition: transform 7s linear; }
+  .h3s.is-active .h3-kb { transform: scale(1); }
+  .h3line { display: block; overflow: hidden; padding-bottom: .08em; }
+  .h3rv { opacity: 0; }
+  .h3line > .h3rv { display: block; transform: translateY(110%); }
+  .h3s.is-active .h3rv { animation: h3-up .9s cubic-bezier(.2,.7,.2,1) forwards; animation-delay: var(--d, 0s); }
+  .h3s.is-active .h3line > .h3rv { animation-name: h3-line; animation-duration: 1s; }
+  @keyframes h3-up { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+  @keyframes h3-line { from { opacity: 1; transform: translateY(110%); } to { opacity: 1; transform: none; } }
+
+  .h3bar { transform: scaleX(0); }
+  .h3dot.is-active .h3bar { animation: h3-fill 7s linear forwards; }
+  .h3dot.is-done .h3bar { transform: scaleX(1); }
+  .h3dot.is-active span:last-child { color: #fff; }
+  [data-hero3][data-paused='true'] .h3dot.is-active .h3bar { animation-play-state: paused; }
+  @keyframes h3-fill { to { transform: scaleX(1); } }
+
+  .h3arrow { display: flex; size: 48px; width: 48px; height: 48px; align-items: center; justify-content: center; border-radius: 9999px; border: 1px solid rgba(255,255,255,.4); color: #fff; background: rgba(255,255,255,.06); backdrop-filter: blur(6px); transition: background .25s, color .25s, border-color .25s; }
+  .h3arrow:hover { background: #c9af55; border-color: #c9af55; color: #1c1b1b; }
+
+  @property --h3-a { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+  .h3glow { position: relative; display: inline-block; padding: 2px; border-radius: 6px; background: conic-gradient(from var(--h3-a), rgba(201,175,85,.25) 0 55%, #fff 80%, #c9af55 92%, rgba(201,175,85,.25)); animation: h3-spin 3.2s linear infinite; box-shadow: 0 10px 30px -10px rgba(201,175,85,.55); }
+  @keyframes h3-spin { to { --h3-a: 360deg; } }
+  .h3glow-in { display: inline-flex; align-items: center; gap: 12px; border-radius: 4px; background: #c9af55; color: #1c1b1b; padding: 16px 28px; font-size: 14px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; transition: background .25s; }
+  .h3glow:hover .h3glow-in { background: #d8c26f; }
+  .h3ghost { display: inline-flex; align-items: center; border-radius: 6px; border: 1px solid rgba(255,255,255,.4); background: rgba(255,255,255,.06); backdrop-filter: blur(6px); color: #fff; padding: 17px 26px; font-size: 14px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; transition: background .25s, border-color .25s; }
+  .h3ghost:hover { background: rgba(255,255,255,.14); border-color: #c9af55; }
+  .hero3 h1, .hero3 h2, .hero3 p { text-shadow: 0 2px 18px rgba(0,0,0,.4); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .h3-kb { transform: none; transition: none; }
+    .h3s.is-active .h3rv, .h3s.is-active .h3line > .h3rv { animation: none; opacity: 1; transform: none; }
+    .h3dot.is-active .h3bar { animation: none; transform: scaleX(1); }
+    .h3glow { animation: none; }
+  }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-hero3]');
+  if (root) {
+    const slides = [...root.querySelectorAll<HTMLElement>('[data-slide]')];
+    const dots = [...root.querySelectorAll<HTMLElement>('.h3dot')];
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let cur = 0;
+    const go = (n: number) => {
+      cur = (n + slides.length) % slides.length;
+      slides.forEach((s, i) => {
+        s.classList.toggle('is-active', i === cur);
+        (s as any).inert = i !== cur;
+      });
+      dots.forEach((d, i) => {
+        d.classList.remove('is-active', 'is-done');
+        if (i < cur) d.classList.add('is-done');
+      });
+      // restart the progress animation on the new dot
+      void dots[cur].offsetWidth;
+      dots[cur].classList.add('is-active');
+    };
+    // Each slide ends when its progress bar finishes
+    root.addEventListener('animationend', (e) => {
+      if ((e.target as HTMLElement).classList.contains('h3bar') && !reduce) go(cur + 1);
+    });
+    dots.forEach((d, i) => d.addEventListener('click', () => go(i)));
+    root.querySelector('[data-next]')?.addEventListener('click', () => go(cur + 1));
+    root.querySelector('[data-prev]')?.addEventListener('click', () => go(cur - 1));
+    root.addEventListener('mouseenter', () => (root.dataset.paused = 'true'));
+    root.addEventListener('mouseleave', () => (root.dataset.paused = 'false'));
+    root.addEventListener('focusin', () => (root.dataset.paused = 'true'));
+    root.addEventListener('focusout', () => (root.dataset.paused = 'false'));
+    let x0 = 0;
+    root.addEventListener('pointerdown', (e) => (x0 = e.clientX));
+    root.addEventListener('pointerup', (e) => { const dx = e.clientX - x0; if (Math.abs(dx) > 50) go(cur + (dx < 0 ? 1 : -1)); });
+    root.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight') go(cur + 1); if (e.key === 'ArrowLeft') go(cur - 1); });
+  }
+</script>
