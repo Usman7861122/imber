@@ -10,7 +10,7 @@ import MegaMenu from './MegaMenu.astro';
 interface Props { overlay?: boolean }
 const { overlay = false } = Astro.props;
 const itemClass =
-  'nav2 group/t relative flex cursor-pointer items-center gap-1.5 px-3 py-2 text-[12.5px] font-medium uppercase tracking-[0.14em] text-ink transition-colors hover:text-[#8a7326] data-[open=true]:text-[#8a7326] 2xl:px-4';
+  'nav3 group/t relative flex cursor-pointer items-center gap-1.5 px-3 py-2 text-[12.5px] font-medium uppercase tracking-[0.14em] transition-colors 2xl:px-4';
 const mobileItems = site.menu.map((m) => ({
   label: m.label,
   href: m.href,
@@ -18,7 +18,7 @@ const mobileItems = site.menu.map((m) => ({
 }));
 ---
 <header class="relative z-40">
-  <!-- Slim ink bar: offer on the left, contact on the right -->
+  <!-- Gold offer bar: keeps the link to the preview tool, scrolls away with the page -->
   <div class="bg-[linear-gradient(90deg,#b9993f,#d6bf6c_50%,#b9993f)] text-[13px] font-medium text-ink">
     <div class="mx-auto flex max-w-[1400px] items-center justify-center gap-6 px-5 py-[9px] xl:justify-between xl:px-8">
       <a href={site.topbar.href} class="flex items-center gap-2 text-center hover:underline">
@@ -35,22 +35,18 @@ const mobileItems = site.menu.map((m) => ({
       </div>
     </div>
   </div>
-
-  <!-- Main bar: frosted glass over the hero, solid white when a menu is open -->
   <div
     data-mega-root
     data-open="false"
-    class:list={[
-      'group/mega relative bg-white transition-[background-color,box-shadow] duration-300',
-      overlay ? 'xl:fixed xl:inset-x-0 xl:top-[38px] xl:bg-white/80 xl:backdrop-blur-md xl:data-[stuck=true]:bg-white/97 xl:data-[stuck=true]:shadow-[0_10px_30px_-18px_rgba(0,0,0,.4)] xl:data-[open=true]:bg-white xl:data-[open=true]:backdrop-blur-none' : '',
-    ]}
+    data-top="true"
+    class="h3root group/mega relative bg-white xl:fixed xl:inset-x-0 xl:top-[38px] transition-[background-color,box-shadow] duration-300 xl:bg-transparent"
   >
-    <span class="absolute inset-x-0 bottom-0 hidden h-px bg-gradient-to-r from-transparent via-gold/70 to-transparent xl:block" aria-hidden="true"></span>
-    <div class="mx-auto flex h-[76px] max-w-[1400px] items-center justify-between pr-[9px] xl:h-[88px] xl:px-8 xl:transition-[height] xl:duration-300 xl:group-data-[stuck=true]/mega:h-[72px]">
-      <!-- Logo + name, on the left -->
+    <span class="h3rule absolute inset-x-0 bottom-0 hidden h-px bg-gradient-to-r from-transparent via-gold/70 to-transparent" aria-hidden="true"></span>
+    <div class="mx-auto flex h-[70px] max-w-[1400px] items-center justify-between pr-[9px] xl:h-[92px] xl:px-8 xl:transition-[height] xl:duration-300 xl:group-data-[stuck=true]/mega:h-[72px]">
+      <!-- Logo + name -->
       <a href="/" aria-label={`${site.name} home`} class="flex shrink-0 items-center gap-3">
-        <Image src={logo} alt="" width={160} height={160} loading="eager" class="size-[64px] xl:size-[64px]" />
-        <span class="font-display text-[19px] leading-none text-[#8a7326] xl:text-[22px]">{site.name}</span>
+        <Image src={logo} alt="" width={160} height={160} loading="eager" class="size-[56px] xl:size-[66px] xl:transition-all xl:duration-300 xl:group-data-[stuck=true]/mega:size-[56px]" />
+        <span class="h3name font-display text-[19px] leading-none text-[#8a7326] xl:text-[23px]">{site.name}</span>
       </a>
 
       <!-- Navigation -->
@@ -67,16 +63,14 @@ const mobileItems = site.menu.map((m) => ({
         ))}
       </nav>
 
-      <!-- Rating + booking -->
-      <div class="hidden shrink-0 items-center gap-6 xl:flex">
-        <a href={site.rating.href} class="hidden items-center gap-2 text-[13px] text-ink 2xl:flex" aria-label={`${site.rating.score} stars, based on ${site.rating.count} reviews`}>
-          <svg viewBox="0 0 24 24" class="size-4 text-gold" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z" /></svg>
-          <span class="font-semibold">{site.rating.score}</span>
-          <span class="text-ink/60 underline decoration-gold underline-offset-4">{site.rating.count} reviews</span>
+      <!-- Phone + booking -->
+      <div class="hidden shrink-0 items-center gap-5 xl:flex">
+        <a href={`tel:${site.phone}`} class="h3phone flex items-center gap-2 text-[14px] font-medium" aria-label={`Call ${site.phone}`}>
+          <span class="flex size-10 items-center justify-center rounded-full border border-current/30"><Icon name="phone" class="size-4" /></span>
+          <span class="hidden 2xl:inline">{site.phone}</span>
         </a>
-        <a href={site.bookUrl} class="hbook group">
-          <span class="hbook-in">
-            <svg viewBox="0 0 24 24" class="size-4 text-gold transition-colors group-hover:text-ink" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>
+        <a href={site.bookUrl} class="h3book group">
+          <span class="h3book-in">
             Book now
             <svg viewBox="0 0 24 24" class="size-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </span>
@@ -96,14 +90,29 @@ const mobileItems = site.menu.map((m) => ({
 </header>
 
 <style is:global>
-  @property --hb-a { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
-  .hbook { position: relative; display: inline-block; padding: 2px; border-radius: 7px; background: conic-gradient(from var(--hb-a), #1c1b1b 0 55%, #c9af55 80%, #f1e2a3 92%, #1c1b1b); animation: hb-spin 3.2s linear infinite; box-shadow: 0 8px 22px -10px rgba(28,27,27,.55); }
-  @keyframes hb-spin { to { --hb-a: 360deg; } }
-  .hbook-in { display: inline-flex; align-items: center; gap: 10px; border-radius: 5px; background: #1c1b1b; color: #fff; padding: 13px 24px; font-size: 12px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; transition: background .25s, color .25s; }
-  .hbook:hover .hbook-in { background: #c9af55; color: #1c1b1b; }
-  @media (prefers-reduced-motion: reduce) { .hbook { animation: none; } }
-  .nav2::after { content: ''; position: absolute; left: 50%; right: 50%; bottom: 2px; height: 1px; background: #c9af55; transition: left .3s, right .3s; }
-  .nav2:hover::after, .nav2[data-open='true']::after { left: 12px; right: 12px; }
+  .nav3 { position: relative; }
+  .nav3::after { content: ''; position: absolute; left: 50%; right: 50%; bottom: 2px; height: 1px; background: #c9af55; transition: left .3s, right .3s; }
+  .nav3:hover::after, .nav3[data-open='true']::after { left: 12px; right: 12px; }
+
+  @property --h3b-a { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+  .h3book { position: relative; display: inline-block; padding: 2px; border-radius: 7px; background: conic-gradient(from var(--h3b-a), rgba(201,175,85,.3) 0 55%, #8a7326 78%, #f6e9b3 92%, rgba(201,175,85,.3)); animation: h3b-spin 3.2s linear infinite; box-shadow: 0 8px 22px -10px rgba(201,175,85,.7); }
+  @keyframes h3b-spin { to { --h3b-a: 360deg; } }
+  .h3book-in { display: inline-flex; align-items: center; gap: 10px; border-radius: 5px; background: linear-gradient(135deg,#d6bf6c,#b9993f); color: #1c1b1b; padding: 13px 24px; font-size: 12px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; transition: filter .25s; }
+  .h3book:hover .h3book-in { filter: brightness(1.08); }
+
+  /* Colours: white over the hero, dark once scrolled or when a menu is open */
+  @media (min-width: 1280px) {
+    .h3root[data-stuck='true'] { background: rgba(255,255,255,.97); backdrop-filter: blur(10px); box-shadow: 0 10px 30px -18px rgba(0,0,0,.4); }
+    .h3root[data-open='true'] { background: #fff; backdrop-filter: none; }
+    .h3root[data-stuck='true'] .h3rule, .h3root[data-open='true'] .h3rule { display: block; }
+    .h3root .nav3, .h3root .h3phone { color: #fff; }
+    .h3root .h3name { color: #ecd98f; }
+    .h3root[data-stuck='true'] .nav3, .h3root[data-open='true'] .nav3, .h3root[data-stuck='true'] .h3phone, .h3root[data-open='true'] .h3phone { color: #1c1b1b; }
+    .h3root[data-stuck='true'] .h3name, .h3root[data-open='true'] .h3name { color: #8a7326; }
+    .h3root .nav3:hover, .h3root .nav3[data-open='true'] { color: #e3cb74; }
+    .h3root[data-stuck='true'] .nav3:hover, .h3root[data-open='true'] .nav3:hover, .h3root[data-open='true'] .nav3[data-open='true'] { color: #8a7326; }
+  }
+  @media (prefers-reduced-motion: reduce) { .h3book { animation: none; } }
 </style>
 
 <script>
@@ -114,9 +123,11 @@ const mobileItems = site.menu.map((m) => ({
     const triggers = [...root.querySelectorAll<HTMLElement>('[data-mega-trigger]')];
     // Sticky: the bar follows the scroll; it slides up to the very top once the gold bar has gone
     const place = () => {
-      if (getComputedStyle(root).position !== 'fixed') return;
-      root.style.top = Math.max(0, 38 - window.scrollY) + 'px';
-      root.dataset.stuck = String(window.scrollY > 38);
+      if (getComputedStyle(root).position !== 'fixed') { root.style.top = ''; return; }
+            root.style.top = Math.max(0, 38 - window.scrollY) + 'px';
+      const top = window.scrollY <= 24;
+      root.dataset.top = String(top);
+      root.dataset.stuck = String(!top);
     };
     place();
     window.addEventListener('scroll', place, { passive: true });
