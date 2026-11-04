@@ -11,7 +11,7 @@ const colClass = { 2: 'grid-cols-2', 3: 'grid-cols-3' } as const;
   id="mega-wrap"
   data-mega-wrap
   data-open="false"
-  class="invisible absolute inset-x-0 top-full z-50 hidden h-0 overflow-hidden border-t-2 border-gold bg-white opacity-0 shadow-[0_30px_50px_-20px_rgba(0,0,0,.28)] transition-[height,opacity,visibility] duration-[350ms] ease-[cubic-bezier(.2,.7,.2,1)] data-[open=true]:visible data-[open=true]:opacity-100 xl:block"
+  class="invisible absolute inset-x-0 top-full z-50 hidden h-0 overflow-hidden border-t border-ink/10 bg-white opacity-0 shadow-[0_40px_60px_-30px_rgba(0,0,0,.35)] transition-[height,opacity,visibility] duration-[350ms] ease-[cubic-bezier(.2,.7,.2,1)] data-[open=true]:visible data-[open=true]:opacity-100 xl:block"
 >
   {panels.map((item) => {
     const m = item.mega!;
@@ -23,17 +23,18 @@ const colClass = { 2: 'grid-cols-2', 3: 'grid-cols-3' } as const;
         aria-label={item.label}
         class="invisible absolute inset-x-0 top-0 opacity-0 transition-opacity duration-200 data-[active=true]:visible data-[active=true]:opacity-100"
       >
-        <div class="mx-auto grid max-w-[1320px] grid-cols-[300px_1fr] gap-16 px-10 py-12">
-          <div class="mega-item" style="--i:0">
-            <p class="flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.3em] text-ink/60">
+        <div class="mx-auto grid max-w-[1400px] grid-cols-[320px_1fr] gap-14 px-8 py-10">
+          <div class="mega-item relative self-start overflow-hidden rounded-img bg-[linear-gradient(160deg,#1c1b1b,#2b2825)] p-9 text-white" style="--i:0">
+            <span class="absolute inset-x-0 top-0 h-[3px] bg-gold" aria-hidden="true"></span>
+            <p class="flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.3em] text-gold">
               <span class="h-px w-8 bg-gold" aria-hidden="true"></span>{m.eyebrow}
             </p>
-            <p class="mt-5 font-display text-[40px] leading-[1.05] text-ink">{m.title}</p>
-            <p class="mt-4 text-[15px] leading-relaxed text-ink/70">{m.text}</p>
+            <p class="mt-5 font-display text-[38px] leading-[1.08] text-white">{m.title}</p>
+            <p class="mt-4 text-[15px] leading-relaxed text-white/70">{m.text}</p>
             {m.cta && (
-              <a href={m.cta.href} class="mt-7 inline-flex items-center gap-2 border border-gold px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.22em] text-ink transition-colors hover:bg-gold hover:text-black">
+              <a href={m.cta.href} class="group/c mt-8 inline-flex items-center gap-3 rounded-[5px] bg-gold whitespace-nowrap px-5 py-3.5 text-[11.5px] font-semibold uppercase tracking-[0.14em] text-ink transition-colors hover:bg-[#d8c26f]">
                 {m.cta.label}
-                <svg viewBox="0 0 24 24" class="size-4" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                <svg viewBox="0 0 24 24" class="size-4 transition-transform group-hover/c:translate-x-1" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
               </a>
             )}
           </div>
