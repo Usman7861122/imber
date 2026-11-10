@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Prose from '../components/Prose.astro';
+import { privacyHtml } from '../data/legal';
+const title = 'Privacy Policy';
+---
+<BaseLayout title={title} description="How Imber Medical collects, uses and protects your information.">
+  <PageHero
+    title={title}
+    eyebrow="Imber Medical"
+    lede="How Imber Medical collects, uses and protects your information."
+    image="/images/imber-outside.webp"
+    imageAlt="The Imber Medical clinic building on St. Simons Island"
+    crumbs={[{ label: 'Home', href: '/' }, { label: title }]}
+  />
+  <!-- TODO: text copied from the live site; have a lawyer review it before launch. -->
+  <section class="bg-white py-16 xl:py-24">
+    <div class="mx-auto max-w-3xl px-5 xl:px-0">
+      <Prose html={privacyHtml} />
+    </div>
+  </section>
+</BaseLayout>

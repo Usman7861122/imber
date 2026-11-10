@@ -1,0 +1,58 @@
+---
+// Hover-slide before/after. Move the mouse (or drag on touch) to reveal the After photo.
+interface Props { n: number; alt: string; priority?: boolean }
+const { n, alt, priority = false } = Astro.props;
+const id = String(n).padStart(2, '0');
+const base = '/images/before-after/';
+---
+<div class="ba group relative aspect-[4/5] touch-pan-y select-none overflow-hidden rounded-img bg-[#f3efe6] shadow-[0_18px_40px_-24px_rgba(28,27,27,.5)]" style="--p:50%" role="img" aria-label={`Before and after: ${alt}. Move across the photo to compare.`}>
+  <div class="ba-after absolute inset-0">
+    <img src={`${base}${id}-after.jpg`} alt="" class="size-full object-cover" loading={priority ? 'eager' : 'lazy'} decoding="async" draggable="false" />
+    <span class="ba-tag ba-tag-after">After</span>
+  </div>
+  <div class="ba-before absolute inset-0">
+    <img src={`${base}${id}-before.jpg`} alt="" class="size-full object-cover" loading={priority ? 'eager' : 'lazy'} decoding="async" draggable="false" />
+    <span class="ba-tag ba-tag-before">Before</span>
+  </div>
+  <span class="ba-line" aria-hidden="true">
+    <span class="ba-knob">
+      <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6" /></svg>
+    </span>
+  </span>
+</div>
+<style is:global>
+  .ba-tag { position: absolute; top: 12px; z-index: 1; padding: 6px 12px; font-size: 10px; font-weight: 600; letter-spacing: .24em; text-transform: uppercase; pointer-events: none; }
+  .ba-tag-before { left: 12px; background: rgba(28,27,27,.78); color: #fff; }
+  .ba-tag-after { right: 12px; background: #c9af55; color: #000; }
+  .ba { cursor: ew-resize; }
+  .ba-after { z-index: 1; }
+  .ba-before { z-index: 2; clip-path: inset(0 calc(100% - var(--p)) 0 0); }
+  .ba-line { position: absolute; top: 0; bottom: 0; left: var(--p); width: 4px; margin-left: -2px; z-index: 5; pointer-events: none; background: #fff; box-shadow: 0 0 0 1px rgba(28,27,27,.35), 0 0 16px rgba(0,0,0,.5); }
+  .ba-knob { position: absolute; left: 50%; top: 50%; width: 60px; height: 60px; margin: -30px 0 0 -30px; display: flex; align-items: center; justify-content: center; border-radius: 9999px; border: 4px solid #fff; background: #c9af55; color: #1c1b1b; box-shadow: 0 6px 22px rgba(0,0,0,.55); animation: knob 2.4s ease-in-out infinite; }
+  .ba:hover .ba-knob, .ba:active .ba-knob { animation: none; }
+  @keyframes knob { 0%,100% { box-shadow: 0 6px 22px rgba(0,0,0,.55), 0 0 0 0 rgba(201,175,85,.8); } 50% { box-shadow: 0 6px 22px rgba(0,0,0,.55), 0 0 0 14px rgba(201,175,85,0); } }
+  @media (prefers-reduced-motion: reduce) { .ba-knob { animation: none; } }
+  .ba.is-idle .ba-before, .ba.is-idle .ba-line { transition: clip-path .5s ease, left .5s ease; }
+</style>
+<script>
+  // One shared script for every slider on the page.
+  const sliders = document.querySelectorAll<HTMLElement>('.ba');
+  const set = (el: HTMLElement, clientX: number) => {
+    const r = el.getBoundingClientRect();
+    // Stretch the range so the outer 12% of the photo is all Before / all After.
+    const raw = ((clientX - r.left) / r.width) * 100;
+    const p = Math.min(100, Math.max(0, ((raw - 12) / 76) * 100));
+    el.style.setProperty('--p', p + '%');
+  };
+  sliders.forEach((el) => {
+    el.addEventListener('pointermove', (e) => {
+      if (e.pointerType === 'mouse' || e.buttons) { el.classList.remove('is-idle'); set(el, e.clientX); }
+    });
+    el.addEventListener('pointerdown', (e) => {
+      if (e.pointerType !== 'mouse') { el.setPointerCapture(e.pointerId); el.classList.remove('is-idle'); set(el, e.clientX); }
+    });
+    el.addEventListener('pointerleave', (e) => {
+      if (e.pointerType === 'mouse') { el.classList.add('is-idle'); el.style.setProperty('--p', '50%'); }
+    });
+  });
+</script>

@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { site } from '../data/site';
+import { localCity } from '../data/treatments';
+
+const title = 'Financing';
+const description = `Imber Medical in ${localCity} accepts HSA, FSA, CareCredit and Cherry. Apply online and plan your care with ease.`;
+const options = [
+  { name: 'Cherry', tag: 'Pay over time', text: 'Split the cost of your treatment into easy monthly payments. Applying takes a few minutes.', href: 'https://pay.withcherry.com/imbermedical?utm_source=practice&m=2145' },
+  { name: 'CareCredit', tag: 'Health and wellness card', text: 'A credit card for health, beauty and wellness care, with promotional financing on eligible treatments.', href: 'https://www.carecredit.com/go/WQQ749/' },
+];
+const accepted = [
+  { name: 'HSA', text: 'Health Savings Account cards are accepted for eligible services.' },
+  { name: 'FSA', text: 'Flexible Spending Account cards are accepted for eligible services.' },
+];
+---
+<BaseLayout title={title} description={description}>
+  <PageHero
+    title="Financing"
+    eyebrow={`Plan your care · ${localCity}`}
+    lede="We are happy to accept HSA, FSA, CareCredit and Cherry as financing options."
+    image="/images/team.jpg"
+    imageAlt="The Imber Medical team: Dr. Laura Slack and her staff"
+    position="50% 4%"
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'Resources' }, { label: 'Financing' }]}
+  />
+  <!-- TODO: confirm financing terms and eligible treatments with the clinic. -->
+  <section class="relative isolate overflow-hidden bg-[linear-gradient(180deg,#fff_0%,rgba(201,175,85,.12)_55%,#fff_100%)] py-16 xl:py-24" aria-labelledby="fin-title">
+    <div class="mx-auto max-w-[1100px] px-5 xl:px-10">
+      <div class="mx-auto max-w-2xl text-center">
+        <p class="text-[11px] font-medium uppercase tracking-[0.34em] text-gold">Ways to pay</p>
+        <h2 id="fin-title" class="mt-5 font-display text-[clamp(2rem,4.2vw,3.25rem)] leading-[1.08] text-ink">Care that fits your budget</h2>
+        <p class="mt-5 text-[17px] leading-relaxed text-body">Choose the option that works best for you. Our team can answer questions at your consultation.</p>
+      </div>
+      <div class="mt-14 grid gap-8 md:grid-cols-2">
+        {options.map((o) => (
+          <article class="flex flex-col rounded-img border border-gold/50 bg-white p-10 text-center shadow-[0_30px_60px_-36px_rgba(28,27,27,.5)]">
+            <p class="text-[11px] font-semibold uppercase tracking-[0.26em] text-ink/60">{o.tag}</p>
+            <h3 class="mt-4 font-display text-[40px] leading-none text-ink">{o.name}</h3>
+            <p class="mx-auto mt-5 max-w-sm flex-1 text-[16px] leading-relaxed text-ink/80">{o.text}</p>
+            <a href={o.href} target="_blank" rel="noopener noreferrer" class="mx-auto mt-8 inline-flex items-center justify-center gap-3 bg-gold px-10 py-4 text-[12px] font-semibold uppercase tracking-[0.26em] text-black transition-colors hover:bg-black hover:text-gold">
+              Apply here
+              <svg viewBox="0 0 24 24" class="size-4" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </a>
+          </article>
+        ))}
+      </div>
+      <div class="mt-8 grid gap-6 md:grid-cols-2">
+        {accepted.map((a) => (
+          <div class="flex items-center gap-6 rounded-img border border-gold/30 bg-white/70 p-7">
+            <span class="flex size-16 shrink-0 items-center justify-center rounded-full bg-ink font-display text-[20px] text-gold">{a.name}</span>
+            <p class="text-[16px] leading-relaxed text-ink/80">{a.text}</p>
+          </div>
+        ))}
+      </div>
+      <p class="mt-10 text-center text-[16px] text-ink/75">Questions? Call <a href={`tel:${site.phone}`} class="font-semibold underline decoration-gold decoration-2 underline-offset-4">{site.phone}</a>.</p>
+    </div>
+  </section>
+</BaseLayout>

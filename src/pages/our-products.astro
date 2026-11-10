@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import ProductsSection from '../components/ProductsSection.astro';
+import { localCity } from '../data/treatments';
+
+const title = 'Our Products';
+const description = `Skin care and wellness products from the trusted partners of Imber Medical in ${localCity}.`;
+const partners = [
+  { name: 'Epicutis', href: 'https://epicutis.com/locate' },
+  { name: 'Colorescience', href: 'https://www.colorescience.com/collections/retailer-landing-page?designate-location=4669' },
+  { name: 'Marini', href: 'https://marini.life/181498' },
+  { name: 'Neuronic', href: 'https://checkout.neuronic.online/IMBERMEDICAL100' },
+  { name: 'VI Peel', href: 'https://vipeel.com/pages/practicefinder' },
+  { name: 'Organifi', href: 'https://www.organifishop.com/collections/all-products' },
+  { name: 'NeoGenesis', href: 'https://www.neogenesis.com/' },
+  { name: 'Beam Minerals', href: 'https://www.beamminerals.com/?discount=DRSLACK&__cc=DRSLACK&_ef_transaction_id=a2c8c680f2444046926e59b9259649fa' },
+  { name: 'Plated Skin Science', href: 'https://platedskinscience.com/imbermedical' },
+];
+---
+<BaseLayout title={title} description={description}>
+  <PageHero
+    title="Our Products"
+    eyebrow={`Take it home · ${localCity}`}
+    lede="Imber has partnered with distinguished companies to bring the best products to Saint Simons Island."
+    image="/images/facial.png"
+    imageAlt="A facial treatment at Imber Medical"
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'Resources' }, { label: 'Our Products' }]}
+  />
+  <ProductsSection />
+  <section class="relative isolate overflow-hidden bg-[linear-gradient(180deg,#fff_0%,rgba(201,175,85,.12)_55%,#fff_100%)] py-16 xl:py-24" aria-labelledby="partners-title">
+    <div class="mx-auto max-w-[1320px] px-5 xl:px-10">
+      <div class="mx-auto max-w-2xl text-center">
+        <p class="text-[11px] font-medium uppercase tracking-[0.34em] text-gold">Our partners</p>
+        <h2 id="partners-title" class="mt-5 font-display text-[clamp(2rem,4.2vw,3.25rem)] leading-[1.08] text-ink">Our trusted product partners</h2>
+        <p class="mt-5 text-[17px] leading-relaxed text-body">Shop directly with the brands we trust. Each link opens the partner’s own store.</p>
+      </div>
+      <ul class="mt-12 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+        {partners.map((p) => (
+          <li>
+            <a href={p.href} target="_blank" rel="noopener noreferrer" class="group flex items-center justify-between gap-4 rounded-img border border-gold/40 bg-white px-8 py-7 shadow-[0_20px_44px_-34px_rgba(28,27,27,.5)] transition-colors hover:border-gold hover:bg-gold/10">
+              <span class="font-display text-[26px] leading-tight text-ink">{p.name}</span>
+              <span class="flex size-11 shrink-0 items-center justify-center rounded-full bg-ink text-gold transition-transform group-hover:translate-x-1">
+                <svg viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                <span class="sr-only">Visit {p.name}</span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>

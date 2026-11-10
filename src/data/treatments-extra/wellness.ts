@@ -20,9 +20,9 @@ export const wellness: Treatment[] = [
       overview: IMG + 'bhrt-2.jpg',
       fit: IMG + 'bhrt-3.jpg',
       alt: {
-        hero: 'A relaxed woman smiling in soft morning light',
-        overview: 'A woman and a doctor talking during a consultation',
-        fit: 'A mature couple walking together outdoors',
+        hero: 'A smiling woman with short grey hair enjoying a walk in the park',
+        overview: 'A woman with glasses holding a yoga mat on a sunny path',
+        fit: 'A confident woman in casual clothes standing outdoors',
       },
     },
     overview: {
@@ -110,9 +110,9 @@ export const wellness: Treatment[] = [
       overview: IMG + 'peptide-2.jpg',
       fit: IMG + 'peptide-3.jpg',
       alt: {
-        hero: 'A fit woman stretching outdoors at sunrise',
-        overview: 'A clinician preparing a small vial in a clean medical room',
-        fit: 'A man resting after a workout',
+        hero: 'A doctor talking with a patient in a bright consulting room',
+        overview: 'A smiling woman with curly hair during a check-up',
+        fit: 'A friendly doctor with glasses talking to a patient',
       },
     },
     overview: {
@@ -200,9 +200,9 @@ export const wellness: Treatment[] = [
       overview: IMG + 'methylene-blue-2.jpg',
       fit: IMG + 'methylene-blue-3.jpg',
       alt: {
-        hero: 'A calm woman by a window in soft blue light',
-        overview: 'A clinician holding a small blue-tinted vial',
-        fit: 'A man working at a desk with a clear, focused look',
+        hero: 'A relaxed woman in a warm sweater and scarf enjoying the autumn woods',
+        overview: 'A joyful woman with raised arms in the city sunshine',
+        fit: 'A woman enjoying fresh air with her face turned to the sky',
       },
     },
     overview: {
@@ -290,9 +290,9 @@ export const wellness: Treatment[] = [
       overview: IMG + 'iv-therapy-2.jpg',
       fit: IMG + 'iv-therapy-3.jpg',
       alt: {
-        hero: 'A woman relaxing in a chair during an IV infusion',
-        overview: 'A medical provider preparing an IV bag',
-        fit: 'A woman smiling with a glass of water',
+        hero: 'A woman resting in a chair during an IV infusion',
+        overview: 'A woman relaxing back in a comfortable infusion chair',
+        fit: 'A close view of an IV line in a patient arm',
       },
     },
     overview: {
@@ -380,9 +380,9 @@ export const wellness: Treatment[] = [
       overview: IMG + 'weight-loss-2.jpg',
       fit: IMG + 'weight-loss-3.jpg',
       alt: {
-        hero: 'A smiling woman walking outdoors in athletic clothes',
-        overview: 'A doctor talking with a patient about a health plan',
-        fit: 'A healthy meal of vegetables and lean protein on a table',
+        hero: 'A smiling woman measuring her waist in athletic wear',
+        overview: 'A woman with a tape measure on a warm studio background',
+        fit: 'A dietitian with a tape measure and a basket of fresh fruit and vegetables',
       },
     },
     overview: {

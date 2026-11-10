@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Prose from '../components/Prose.astro';
+import { termsHtml } from '../data/legal';
+const title = 'Terms & Conditions';
+---
+<BaseLayout title={title} description="The terms for using the Imber Medical website.">
+  <PageHero
+    title={title}
+    eyebrow="Imber Medical"
+    lede="The terms for using the Imber Medical website."
+    image="/images/imber-outside.webp"
+    imageAlt="The Imber Medical clinic building on St. Simons Island"
+    crumbs={[{ label: 'Home', href: '/' }, { label: title }]}
+  />
+  <!-- TODO: text copied from the live site; have a lawyer review it before launch. -->
+  <section class="bg-white py-16 xl:py-24">
+    <div class="mx-auto max-w-3xl px-5 xl:px-0">
+      <Prose html={termsHtml} />
+    </div>
+  </section>
+</BaseLayout>

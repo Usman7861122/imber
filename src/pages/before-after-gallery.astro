@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import BeforeAfter from '../components/BeforeAfter.astro';
+import { baCases, baCategories } from '../data/before-after';
+import { localCity } from '../data/treatments';
+
+const title = 'Before & After Gallery';
+const description = `Real patient results from Imber Medical in ${localCity}: body contouring, lip filler, neurotoxin, hair restoration, acne, rosacea and tattoo removal. Move across any photo to compare.`;
+const count = baCases.length;
+---
+<BaseLayout title={title} description={description}>
+  <PageHero
+    title="Before & After"
+    eyebrow={`Patient results · ${localCity}`}
+    lede="Real patients, real results. Move your mouse across any photo to see the change."
+    image="/images/imber-outside.webp"
+    imageAlt="The Imber Medical clinic building on St. Simons Island"
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'Resources' }, { label: 'Before & After' }]}
+  />
+
+  <section class="relative isolate overflow-hidden bg-[linear-gradient(180deg,#fff_0%,rgba(201,175,85,.1)_60%,#fff_100%)] py-16 xl:py-24" aria-labelledby="ba-title">
+    <div class="mx-auto max-w-[1320px] px-5 xl:px-10">
+      <div class="mx-auto max-w-2xl text-center">
+        <p class="text-[11px] font-medium uppercase tracking-[0.34em] text-gold">{count} patient results</p>
+        <h2 id="ba-title" class="mt-5 font-display text-[clamp(2rem,4.2vw,3.25rem)] leading-[1.08] text-ink">See the difference for yourself</h2>
+        <p class="mt-5 text-[17px] leading-relaxed text-body">Each photo shows a patient before and after treatment with Dr. Slack. On a phone, touch and drag across the photo.</p>
+      </div>
+
+      <div class="mt-10 flex flex-wrap justify-center gap-3" role="group" aria-label="Filter results" id="ba-filters">
+        {baCategories.map((c, i) => (
+          <button type="button" data-filter={c.id} aria-pressed={i === 0 ? 'true' : 'false'} class="ba-chip border border-gold/60 px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-ink transition-colors hover:bg-gold/20 aria-pressed:bg-gold aria-pressed:text-black">
+            {c.label}
+          </button>
+        ))}
+      </div>
+
+      <ul class="mt-12 grid gap-x-6 gap-y-12 sm:grid-cols-2 xl:grid-cols-3" id="ba-grid">
+        {baCases.map((k, i) => (
+          <li data-cat={k.cat} class="ba-item">
+            <BeforeAfter n={k.n} alt={`${k.title}, ${k.alt}`} priority={i < 3} />
+            <h3 class="mt-4 font-display text-[22px] leading-snug text-ink">{k.title}</h3>
+            <p class="mt-1 text-[12px] uppercase tracking-[0.2em] text-muted">{baCategories.find((c) => c.id === k.cat)?.label}</p>
+          </li>
+        ))}
+      </ul>
+
+      <p class="mx-auto mt-16 max-w-2xl text-center text-[13px] leading-relaxed text-muted">Results vary from person to person. Photos are shared with patient permission. Your own plan is made for you at your consultation.</p>
+    </div>
+  </section>
+
+
+  <script>
+    const chips = document.querySelectorAll<HTMLButtonElement>('.ba-chip');
+    const items = document.querySelectorAll<HTMLElement>('.ba-item');
+    chips.forEach((chip) => chip.addEventListener('click', () => {
+      const f = chip.dataset.filter;
+      chips.forEach((c) => c.setAttribute('aria-pressed', String(c === chip)));
+      items.forEach((it) => { it.hidden = !(f === 'all' || it.dataset.cat === f); });
+    }));
+  </script>
+</BaseLayout>

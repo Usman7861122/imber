@@ -1,0 +1,156 @@
+---
+// Cookie consent: banner + customise dialog. Opt-in for everything except "necessary".
+// Gate third-party code like this:
+//   <script type="text/plain" data-consent="analytics" src="https://..."></script>   (also: marketing)
+//   <iframe data-consent="embeds" data-src="https://..."></iframe>
+// The choice is stored in the `imber_consent` cookie for 180 days. Reopen it with any element that has [data-cookie-settings].
+const cats = [
+  { id: 'necessary', title: 'Strictly necessary', text: 'Keep the site working and remember your cookie choice. These are always on.', locked: true },
+  { id: 'analytics', title: 'Analytics', text: 'Help us see how the site is used, so we can improve it. No analytics tools are installed yet.' },
+  { id: 'marketing', title: 'Marketing', text: 'Used to measure ads and show relevant offers. No marketing tools are installed yet.' },
+  { id: 'embeds', title: 'Embedded content', text: 'Lets us show content from other services, such as Google Maps. These services may set their own cookies.' },
+];
+---
+<div id="cc-banner" class="cc-banner" role="region" aria-label="Cookie consent" hidden>
+  <p class="cc-title">Your privacy choices</p>
+  <p class="cc-text">We use cookies to run this site. With your permission we also use them for analytics, marketing and embedded content. You can change your mind at any time. <a href="/cookie-policy">Cookie Policy</a></p>
+  <div class="cc-actions">
+    <button type="button" class="cc-btn cc-primary" data-cc="accept">Accept all</button>
+    <button type="button" class="cc-btn cc-secondary" data-cc="reject">Reject non-essential</button>
+    <button type="button" class="cc-btn cc-link" data-cc="customize">Customize</button>
+  </div>
+</div>
+
+<dialog id="cc-dialog" class="cc-dialog" aria-labelledby="cc-dtitle">
+  <form method="dialog" class="cc-dform">
+    <div class="cc-dhead">
+      <h2 id="cc-dtitle">Cookie settings</h2>
+      <button type="button" class="cc-close" data-cc="close" aria-label="Close cookie settings">×</button>
+    </div>
+    <p class="cc-dintro">Choose which cookies you allow. Strictly necessary cookies cannot be turned off. Read more in our <a href="/cookie-policy">Cookie Policy</a>.</p>
+    <ul class="cc-list">
+      {cats.map((c) => (
+        <li class="cc-item">
+          <div class="cc-itext">
+            <label for={`cc-${c.id}`} class="cc-ilabel">{c.title}</label>
+            <p>{c.text}</p>
+          </div>
+          <label class="cc-switch">
+            <input type="checkbox" id={`cc-${c.id}`} data-cat={c.id} checked={c.locked} disabled={c.locked} />
+            <span class="cc-track" aria-hidden="true"></span>
+            <span class="sr-only">{c.locked ? `${c.title}: always on` : `Allow ${c.title.toLowerCase()}`}</span>
+          </label>
+        </li>
+      ))}
+    </ul>
+    <div class="cc-dactions">
+      <button type="button" class="cc-btn cc-primary" data-cc="save">Save my choices</button>
+      <button type="button" class="cc-btn cc-secondary" data-cc="accept">Accept all</button>
+      <button type="button" class="cc-btn cc-secondary" data-cc="reject">Reject non-essential</button>
+    </div>
+  </form>
+</dialog>
+
+<style is:global>
+  .cc-banner { position: fixed; z-index: 90; left: 16px; right: 16px; bottom: 64px; max-width: 460px; padding: 22px 22px 18px; background: linear-gradient(160deg,#2a2826,#1c1b1b); color: #fff; border: 1px solid rgba(201,175,85,.6); border-radius: 10px; box-shadow: 0 24px 60px -20px rgba(0,0,0,.6); }
+  .cc-banner[hidden] { display: none; }
+  @media (min-width: 1280px) { .cc-banner { left: 24px; right: auto; bottom: 24px; } }
+  .cc-title { font-family: var(--font-display, 'Playfair Display', serif); font-size: 22px; line-height: 1.2; }
+  .cc-text { margin-top: 8px; font-size: 14px; line-height: 1.6; color: rgba(255,255,255,.82); }
+  .cc-text a, .cc-dintro a { color: #c9af55; text-decoration: underline; text-underline-offset: 3px; }
+  .cc-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; align-items: center; }
+  .cc-btn { cursor: pointer; font: 600 11px/1 var(--font-sans, Inter, sans-serif); letter-spacing: .2em; text-transform: uppercase; padding: 14px 18px; border: 1px solid #c9af55; transition: background .2s, color .2s; }
+  .cc-primary { background: #c9af55; color: #000; }
+  .cc-primary:hover { background: #fff; }
+  .cc-secondary { background: transparent; color: #fff; }
+  .cc-secondary:hover { background: rgba(201,175,85,.2); }
+  .cc-link { background: none; border-color: transparent; color: #c9af55; text-decoration: underline; text-underline-offset: 4px; padding-left: 6px; padding-right: 6px; }
+  .cc-dialog { margin: auto; width: min(640px, calc(100vw - 24px)); max-height: calc(100vh - 24px); padding: 0; border: 1px solid rgba(201,175,85,.6); border-radius: 10px; background: #fff; color: #1c1b1b; box-shadow: 0 40px 100px -20px rgba(0,0,0,.6); overflow: auto; }
+  .cc-dialog::backdrop { background: rgba(28,27,27,.65); backdrop-filter: blur(3px); }
+  .cc-dform { padding: 28px; }
+  .cc-dhead { display: flex; align-items: center; justify-content: space-between; }
+  .cc-dhead h2 { font-family: var(--font-display, 'Playfair Display', serif); font-size: 30px; font-weight: 500; }
+  .cc-close { cursor: pointer; font-size: 32px; line-height: 1; width: 40px; height: 40px; border: 1px solid rgba(28,27,27,.2); background: #fff; }
+  .cc-dintro { margin-top: 10px; font-size: 15px; line-height: 1.6; color: #333; }
+  .cc-dintro a { color: #1c1b1b; text-decoration-color: #c9af55; }
+  .cc-list { margin-top: 18px; border-top: 1px solid rgba(201,175,85,.5); }
+  .cc-item { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 16px 0; border-bottom: 1px solid rgba(201,175,85,.5); }
+  .cc-ilabel { font-weight: 600; font-size: 16px; }
+  .cc-itext p { margin-top: 4px; font-size: 14px; line-height: 1.55; color: #444; }
+  .cc-switch { position: relative; flex-shrink: 0; width: 52px; height: 30px; cursor: pointer; }
+  .cc-switch input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; z-index: 2; }
+  .cc-track { position: absolute; inset: 0; border-radius: 9999px; background: #cfcfcf; transition: background .2s; }
+  .cc-track::after { content: ''; position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; border-radius: 50%; background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,.35); transition: transform .2s; }
+  .cc-switch input:checked + .cc-track { background: #c9af55; }
+  .cc-switch input:checked + .cc-track::after { transform: translateX(22px); }
+  .cc-switch input:disabled { cursor: not-allowed; }
+  .cc-switch input:disabled + .cc-track { opacity: .6; }
+  .cc-switch input:focus-visible + .cc-track { outline: 2px solid #1c1b1b; outline-offset: 3px; }
+  .cc-dactions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+  .cc-dialog .cc-secondary { color: #1c1b1b; }
+  .cc-embed-note { position: relative; z-index: 5; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; height: 100%; padding: 20px; text-align: center; font-size: 14px; background: #f3efe6; color: #1c1b1b; }
+  .cc-embed-note button { cursor: pointer; background: #c9af55; border: 0; padding: 12px 16px; font: 600 11px/1 Inter, sans-serif; letter-spacing: .18em; text-transform: uppercase; }
+  @media (prefers-reduced-motion: reduce) { .cc-track, .cc-track::after, .cc-btn { transition: none; } }
+</style>
+
+<script is:inline>
+  (function () {
+    var KEY = 'imber_consent', VERSION = 1, DAYS = 180;
+    var CATS = ['analytics', 'marketing', 'embeds'];
+    var banner = document.getElementById('cc-banner'), dialog = document.getElementById('cc-dialog');
+    function read() {
+      try {
+        var m = document.cookie.match(new RegExp('(?:^|; )' + KEY + '=([^;]*)'));
+        var v = m ? JSON.parse(decodeURIComponent(m[1])) : null;
+        if (!v) { var ls = localStorage.getItem(KEY); v = ls ? JSON.parse(ls) : null; }
+        return v && v.v === VERSION ? v : null;
+      } catch (e) { return null; }
+    }
+    function write(c) {
+      c.v = VERSION; c.ts = new Date().toISOString();
+      var s = encodeURIComponent(JSON.stringify(c));
+      document.cookie = KEY + '=' + s + '; max-age=' + DAYS * 86400 + '; path=/; SameSite=Lax' + (location.protocol === 'https:' ? '; Secure' : '');
+      try { localStorage.setItem(KEY, JSON.stringify(c)); } catch (e) {}
+    }
+    function allowed(cat) { var c = read(); return !!(c && c[cat]); }
+    function activate() {
+      document.querySelectorAll('script[type="text/plain"][data-consent]').forEach(function (el) {
+        if (!allowed(el.getAttribute('data-consent')) || el.getAttribute('data-done')) return;
+        var s = document.createElement('script');
+        for (var i = 0; i < el.attributes.length; i++) { var a = el.attributes[i]; if (a.name !== 'type' && a.name !== 'data-consent') s.setAttribute(a.name, a.value); }
+        s.text = el.text; el.setAttribute('data-done', '1'); el.parentNode.insertBefore(s, el.nextSibling);
+      });
+      document.querySelectorAll('iframe[data-consent][data-src]').forEach(function (f) {
+        var ok = allowed(f.getAttribute('data-consent'));
+        var note = f.parentNode.querySelector('.cc-embed-note');
+        if (ok) { if (!f.getAttribute('src')) f.setAttribute('src', f.getAttribute('data-src')); if (note) note.remove(); }
+        else { f.removeAttribute('src'); if (!note) { note = document.createElement('div'); note.className = 'cc-embed-note'; note.innerHTML = '<span>This map is hidden until you allow embedded content.</span><button type="button" data-cookie-settings>Cookie settings</button>'; f.parentNode.insertBefore(note, f); } }
+      });
+    }
+    function apply(choice) {
+      var c = { necessary: true }; CATS.forEach(function (k) { c[k] = !!choice[k]; });
+      write(c); banner.hidden = true; if (dialog.open) dialog.close(); activate();
+      document.dispatchEvent(new CustomEvent('imber:consent', { detail: c }));
+    }
+    function openDialog() {
+      var c = read() || {};
+      CATS.forEach(function (k) { var i = dialog.querySelector('[data-cat="' + k + '"]'); if (i) i.checked = !!c[k]; });
+      banner.hidden = true; if (!dialog.open) dialog.showModal();
+    }
+    function all(v) { var o = {}; CATS.forEach(function (k) { o[k] = v; }); return o; }
+    document.addEventListener('click', function (e) {
+      var t = e.target.closest ? e.target.closest('[data-cc],[data-cookie-settings]') : null; if (!t) return;
+      if (t.hasAttribute('data-cookie-settings')) { e.preventDefault(); return openDialog(); }
+      var a = t.getAttribute('data-cc');
+      if (a === 'accept') apply(all(true));
+      else if (a === 'reject') apply(all(false));
+      else if (a === 'customize') openDialog();
+      else if (a === 'close') { dialog.close(); if (!read()) banner.hidden = false; }
+      else if (a === 'save') { var o = {}; CATS.forEach(function (k) { o[k] = dialog.querySelector('[data-cat="' + k + '"]').checked; }); apply(o); }
+    });
+    dialog.addEventListener('cancel', function () { if (!read()) setTimeout(function () { banner.hidden = false; }, 0); });
+    window.imberConsent = { get: read, allowed: allowed, open: openDialog };
+    activate();
+    if (!read()) banner.hidden = false;
+  })();
+</script>

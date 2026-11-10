@@ -165,5 +165,8 @@ export const footerLinks = {
     { label: 'Articles', href: '/articles' },
     { label: 'Terms & Conditions', href: '/terms-conditions' },
     { label: 'Privacy Policy', href: '/privacy-policy' },
+    { label: 'Cookie Policy', href: '/cookie-policy' },
+    { label: 'Notice of Privacy Practices', href: '/notice-of-privacy-practices' },
+    { label: 'Accessibility', href: '/accessibility' },
   ],
 };

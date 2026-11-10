@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { localCity } from '../data/treatments';
+
+const title = 'Our Technology Videos';
+const description = `Watch short videos about the lasers and devices used at Imber Medical in ${localCity}: Emsculpt, BeautiFill, truSculpt, Scarlet RF, Agnes RF, CO2, ExcelV, Pico and more.`;
+const videos = [
+  { t: 'Hair Restoration', id: '899891341' },
+  { t: 'Scarlet RF', id: '899887961' },
+  { t: 'Emsculpt', id: '899875896' },
+  { t: 'BeautiFill Laser Lipo', id: '899590281' },
+  { t: 'TruSculpt ID', id: '899834955' },
+  { t: 'CO2', id: '899594943' },
+  { t: 'Agnes RF', id: '899583905' },
+  { t: 'Accent Prime', id: '899568171' },
+  { t: 'ExcelV', id: '899880973' },
+  { t: 'Laser Hair Removal', id: '899868632' },
+  { t: 'Pico', id: '899882805' },
+  { t: 'Stress Urinary Incontinence', id: '899830653' },
+  { t: 'Verju', id: '899837742' },
+];
+---
+<BaseLayout title={title} description={description}>
+  <PageHero
+    title="Technology Videos"
+    eyebrow={`See how it works · ${localCity}`}
+    lede="Short videos on the devices we use, so you know what to expect."
+    image="/images/imber-outside.webp"
+    imageAlt="The Imber Medical clinic building on St. Simons Island"
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'Resources' }, { label: 'Technology Videos' }]}
+  />
+  <section class="relative isolate overflow-hidden bg-[linear-gradient(180deg,#fff_0%,rgba(201,175,85,.12)_55%,#fff_100%)] py-16 xl:py-24" aria-labelledby="vid-title">
+    <div class="mx-auto max-w-[1320px] px-5 xl:px-10">
+      <div class="mx-auto max-w-2xl text-center">
+        <p class="text-[11px] font-medium uppercase tracking-[0.34em] text-gold">{videos.length} videos</p>
+        <h2 id="vid-title" class="mt-5 font-display text-[clamp(2rem,4.2vw,3.25rem)] leading-[1.08] text-ink">Meet the technology</h2>
+        <p class="mt-5 text-[17px] leading-relaxed text-body">Press play on any card. Videos load only when you choose to watch.</p>
+      </div>
+      <ul class="mt-12 grid gap-x-6 gap-y-10 sm:grid-cols-2 xl:grid-cols-3">
+        {videos.map((v) => (
+          <li>
+            <div class="vid relative aspect-video overflow-hidden rounded-img bg-[linear-gradient(160deg,#2a2826_0%,#1c1b1b_60%,#000_100%)] shadow-[0_24px_50px_-30px_rgba(28,27,27,.6)]" data-id={v.id} data-title={v.t}>
+              <button type="button" class="group absolute inset-0 flex flex-col items-center justify-center gap-4 text-white" aria-label={`Play video: ${v.t}`}>
+                <span class="flex size-16 items-center justify-center rounded-full border-[3px] border-white bg-gold text-ink shadow-[0_8px_24px_rgba(0,0,0,.5)] transition-transform group-hover:scale-110">
+                  <svg viewBox="0 0 24 24" class="ml-1 size-7" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
+                </span>
+                <span class="px-6 text-center font-display text-[22px] leading-tight">{v.t}</span>
+              </button>
+            </div>
+            <h3 class="mt-4 font-display text-[20px] leading-snug text-ink">{v.t}</h3>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+  <script>
+    document.querySelectorAll<HTMLElement>('.vid').forEach((box) => {
+      box.querySelector('button')?.addEventListener('click', () => {
+        const f = document.createElement('iframe');
+        f.src = `https://player.vimeo.com/video/${box.dataset.id}?autoplay=1`;
+        f.title = box.dataset.title || 'Video';
+        f.allow = 'autoplay; fullscreen; picture-in-picture';
+        f.allowFullscreen = true;
+        f.className = 'absolute inset-0 size-full border-0';
+        box.innerHTML = '';
+        box.appendChild(f);
+      });
+    });
+  </script>
+</BaseLayout>

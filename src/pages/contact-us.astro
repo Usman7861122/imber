@@ -1,10 +1,20 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Section from '../components/Section.astro';
+import PageHero from '../components/PageHero.astro';
+import LocationSection from '../components/LocationSection.astro';
+import { localCity } from '../data/treatments';
+
+const title = 'Contact Us';
+const description = `Contact Imber Medical at 1620 Frederica Road, St. Simons Island, GA. Call 912-268-2103 or send a message to book your consultation.`;
 ---
-<BaseLayout title="Contact">
-  <Section>
-    <h1 class="font-display text-4xl text-ink">Contact</h1>
-    <p class="mt-4">Content coming soon.</p>
-  </Section>
+<BaseLayout title={title} description={description}>
+  <PageHero
+    title="Contact"
+    eyebrow={`Imber Medical · ${localCity}`}
+    lede="Questions, or ready to begin? Our friendly team is here to guide you every step of the way."
+    image="/images/imber-outside.webp"
+    imageAlt="The Imber Medical clinic building on St. Simons Island"
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'Contact' }]}
+  />
+  <LocationSection />
 </BaseLayout>

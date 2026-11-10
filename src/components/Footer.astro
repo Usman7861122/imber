@@ -69,6 +69,7 @@ const link = 'text-[15px] text-white/75 transition-colors hover:text-gold';
       <p>© {year} {site.name}. All rights reserved.</p>
       <ul class="flex flex-wrap gap-x-6 gap-y-2">
         {footerLinks.legal.map((l) => <li><a href={l.href} class="transition-colors hover:text-gold">{l.label}</a></li>)}
+        <li><button type="button" data-cookie-settings class="transition-colors hover:text-gold">Cookie settings</button></li>
       </ul>
     </div>
   </div>

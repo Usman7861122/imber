@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import { articles } from '../../data/articles';
+import { localCity } from '../../data/treatments';
+
+const title = 'Wellness & Aesthetics Articles';
+const description = `Expert insights from Imber Medical in ${localCity}: skin care, injectables, laser treatments, peptides, hair restoration and more.`;
+const short = (t: string, n = 150) => (t.length <= n ? t : t.slice(0, n).replace(/\s+\S*$/, '') + '…');
+const fmt = (d: string) => new Date(d + 'T12:00:00Z').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+---
+<BaseLayout title={title} description={description}>
+  <PageHero
+    title="Articles"
+    eyebrow={`Expert insights · ${localCity}`}
+    lede="Clear, practical guidance on skin, hair, body and wellness care from the team at Imber Medical."
+    image="/images/peptides.jpeg"
+    imageAlt="Wellness care at Imber Medical"
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'Articles' }]}
+  />
+  <section class="relative isolate overflow-hidden bg-[linear-gradient(180deg,#fff_0%,rgba(201,175,85,.1)_60%,#fff_100%)] py-16 xl:py-24" aria-label="Articles">
+    <div class="mx-auto max-w-[1320px] px-5 xl:px-10">
+      <ul class="grid gap-x-8 gap-y-14 md:grid-cols-2 xl:grid-cols-3">
+        {articles.map((a, i) => (
+          <li>
+            <a href={`/articles/${a.slug}/`} class="group flex h-full flex-col">
+              <div class="relative aspect-[4/3] overflow-hidden rounded-img bg-ink shadow-[0_26px_50px_-32px_rgba(28,27,27,.55)]">
+                <img src={a.image} alt="" loading={i < 3 ? 'eager' : 'lazy'} class="size-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              </div>
+              <p class="mt-5 text-[11px] font-semibold uppercase tracking-[0.24em] text-ink/55">{fmt(a.date)}</p>
+              <h2 class="mt-2 font-display text-[24px] leading-snug text-ink transition-colors group-hover:text-[#8a7326]">{a.title}</h2>
+              <p class="mt-3 flex-1 text-[15px] leading-relaxed text-ink/75">{short(a.excerpt)}</p>
+              <span class="mt-5 inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.22em] text-ink">Read more <svg viewBox="0 0 24 24" class="size-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>

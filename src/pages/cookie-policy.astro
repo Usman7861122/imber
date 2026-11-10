@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Prose from '../components/Prose.astro';
+import { cookieHtml } from '../data/legal';
+const title = 'Cookie Policy';
+---
+<BaseLayout title={title} description="How Imber Medical uses cookies, and how to change your choices.">
+  <PageHero
+    title={title}
+    eyebrow="Imber Medical"
+    lede="How Imber Medical uses cookies, and how to change your choices."
+    image="/images/imber-outside.webp"
+    imageAlt="The Imber Medical clinic building on St. Simons Island"
+    crumbs={[{ label: 'Home', href: '/' }, { label: title }]}
+  />
+  <!-- TODO: have a lawyer review this page before launch. -->
+  <section class="bg-white py-16 xl:py-24">
+    <div class="mx-auto max-w-3xl px-5 xl:px-0">
+      <p class="mb-10"><button type="button" data-cookie-settings class="inline-flex items-center justify-center bg-gold px-8 py-4 text-[12px] font-semibold uppercase tracking-[0.24em] text-black transition-colors hover:bg-black hover:text-gold">Open cookie settings</button></p>
+      <Prose html={cookieHtml} />
+    </div>
+  </section>
+</BaseLayout>

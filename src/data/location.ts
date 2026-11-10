@@ -20,9 +20,4 @@ export const location = {
  * Stand-in reviews: the patient testimonials shown on the live site.
  * They are replaced by real Google reviews when PUBLIC_GOOGLE_REVIEWS_URL is set.
  */
-export const sampleReviews: Review[] = [
-  { author: 'Bailey G.', rating: 5, text: "Imber has best staff ever!! I got a laser done by Taylor and loved every second of it! I can't wait to come back and get more treatments from them!" },
-  { author: 'Lara S.', rating: 5, text: 'It was phenomenal. I felt more like a friend than a patient. I will be back!!' },
-  { author: 'Jessica M.', rating: 5, text: 'Your friendly bedside manner and the kindness of your staff made a difficult situation as pleasant as it could be.' },
-  { author: 'Stef F.', rating: 5, text: 'This was worth a million bucks. I couldn’t be happier with my surgery results and my choice of your office. Best decision ever.' },
-];
+export { reviews as sampleReviews } from './reviews';

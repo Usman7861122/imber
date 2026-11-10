@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Prose from '../components/Prose.astro';
+import { nppHtml } from '../data/legal';
+const title = 'Notice of Privacy Practices';
+---
+<BaseLayout title={title} description="How your health information may be used and shared, and your rights." noindex>
+  <PageHero
+    title={title}
+    eyebrow="Imber Medical"
+    lede="How your health information may be used and shared, and your rights."
+    image="/images/imber-outside.webp"
+    imageAlt="The Imber Medical clinic building on St. Simons Island"
+    crumbs={[{ label: 'Home', href: '/' }, { label: title }]}
+  />
+  <!-- TODO: have a lawyer review this page before launch. -->
+  <section class="bg-white py-16 xl:py-24">
+    <div class="mx-auto max-w-3xl px-5 xl:px-0">
+      <p class="mb-10 rounded-img border border-gold bg-gold/10 p-5 text-[15px] text-ink">Draft notice: this page is waiting for review by the practice’s privacy officer or a lawyer.</p>
+      <Prose html={nppHtml} />
+    </div>
+  </section>
+</BaseLayout>

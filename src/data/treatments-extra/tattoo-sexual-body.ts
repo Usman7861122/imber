@@ -112,7 +112,7 @@ export const tattooSexualBody: Treatment[] = [
       fit: IMG + 'male-health-3.jpg',
       alt: {
         hero: 'A confident man smiling outdoors',
-        overview: 'A man relaxing at home after a workout',
+        overview: 'A smiling man in a denim shirt sitting at home',
         fit: 'A man talking with a provider during a consultation',
       },
     },
@@ -201,9 +201,9 @@ export const tattooSexualBody: Treatment[] = [
       overview: IMG + 'female-health-2.jpg',
       fit: IMG + 'female-health-3.jpg',
       alt: {
-        hero: 'A woman smiling with calm confidence',
-        overview: 'A woman relaxing at home with a cup of tea',
-        fit: 'A woman talking with a provider during a consultation',
+        hero: 'A doctor talking with a woman patient in a bright clinic',
+        overview: 'A provider with a clipboard talking with a woman during a visit',
+        fit: 'A woman smiling and enjoying a sunny day in the park',
       },
     },
     overview: {
@@ -291,9 +291,9 @@ export const tattooSexualBody: Treatment[] = [
       overview: IMG + 'body-contouring-2.jpg',
       fit: IMG + 'body-contouring-3.jpg',
       alt: {
-        hero: 'A woman with a toned, healthy midsection',
-        overview: 'A provider using a handheld device on a patient’s abdomen',
-        fit: 'A fit man and woman after exercise',
+        hero: 'A care provider checking a patient with a wearable monitor during a visit',
+        overview: 'A smiling doctor talking with a woman patient in a bright clinic',
+        fit: 'A dietitian with a tape measure and a basket of fresh fruit and vegetables',
       },
     },
     overview: {
@@ -382,7 +382,7 @@ export const tattooSexualBody: Treatment[] = [
       fit: IMG + 'jaw-contouring-3.jpg',
       alt: {
         hero: 'A woman with a defined jawline in profile',
-        overview: 'A man with a strong, defined jawline',
+        overview: 'A doctor reviewing a face scan with a patient on a screen',
         fit: 'A woman touching her jaw with a calm expression',
       },
     },

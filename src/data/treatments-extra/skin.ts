@@ -379,9 +379,9 @@ export const skin: Treatment[] = [
       overview: IMG + 'prp-2.jpg',
       fit: IMG + 'prp-3.jpg',
       alt: {
-        hero: 'A woman with fresh, glowing skin',
-        overview: "A provider treating a woman's face with a microneedling pen",
-        fit: 'A close view of smooth, healthy facial skin',
+        hero: 'A woman with glowing skin holding a PRP blood tube in a clinic',
+        overview: "A gloved provider drawing blood from a patient arm for PRP",
+        fit: 'A skin layer model beside a syringe at a doctor desk',
       },
     },
     overview: {
@@ -469,9 +469,9 @@ export const skin: Treatment[] = [
       overview: IMG + 'regenerative-2.jpg',
       fit: IMG + 'regenerative-3.jpg',
       alt: {
-        hero: 'A woman with healthy, radiant skin',
-        overview: "A provider applying a skin treatment to a woman's face",
-        fit: 'A close view of fresh, healthy-looking skin',
+        hero: 'A close view of a glowing, hydrated face with a serum drop',
+        overview: "A woman in a head towel with a serum dropper by her eye",
+        fit: 'A woman with freckled skin and a serum dropper near her cheek',
       },
     },
     overview: {
@@ -559,9 +559,9 @@ export const skin: Treatment[] = [
       overview: IMG + 'plated-calm-2.jpg',
       fit: IMG + 'plated-calm-3.jpg',
       alt: {
-        hero: 'A woman with calm, soft-looking skin',
-        overview: 'A woman applying a soothing serum to her face',
-        fit: 'A close view of calm, comfortable facial skin',
+        hero: 'A woman touching her glowing skin and holding a cream jar',
+        overview: 'A woman with closed eyes holding a skincare cream jar',
+        fit: 'A calm woman with soft, smooth skin',
       },
     },
     overview: {

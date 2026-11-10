@@ -411,7 +411,7 @@ const base: Treatment[] = [
       overview: IMG + 'ted-2.jpg',
       fit: IMG + 'ted-3.jpg',
       alt: {
-        hero: 'A woman with long, healthy, shiny hair',
+        hero: 'A specialist checking a patient scalp with a magnifying light',
         overview: 'A woman massaging her scalp with a soft brush',
         fit: 'A woman with long, healthy hair looking over her shoulder',
       },
@@ -501,8 +501,8 @@ const base: Treatment[] = [
       overview: IMG + 'xtresse-2.jpg',
       fit: IMG + 'xtresse-3.jpg',
       alt: {
-        hero: 'A woman applying a hair serum to her scalp with a dropper',
-        overview: 'A woman with long, healthy hair in soft light',
+        hero: 'A specialist examining a patient scalp with a handheld scope',
+        overview: 'A provider checking a patient scalp and hair on a screen',
         fit: 'A close view of a woman applying scalp serum with a dropper',
       },
     },
@@ -593,8 +593,8 @@ const base: Treatment[] = [
       fit: IMG + 'laser-hair-3.jpg',
       alt: {
         hero: 'A woman with smooth, glowing legs',
-        overview: 'A laser hair removal handpiece used on the underarm',
-        fit: 'A provider treating the underarm with a laser handpiece',
+        overview: 'A laser handpiece treating the leg of a woman',
+        fit: 'A woman in protective glasses having laser hair removal on her upper lip',
       },
     },
     overview: {

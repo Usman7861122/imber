@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Prose from '../components/Prose.astro';
+import { accessibilityHtml } from '../data/legal';
+const title = 'Accessibility Statement';
+---
+<BaseLayout title={title} description="Our commitment to a website everyone can use.">
+  <PageHero
+    title={title}
+    eyebrow="Imber Medical"
+    lede="Our commitment to a website everyone can use."
+    image="/images/imber-outside.webp"
+    imageAlt="The Imber Medical clinic building on St. Simons Island"
+    crumbs={[{ label: 'Home', href: '/' }, { label: title }]}
+  />
+  <!-- TODO: have a lawyer review this page before launch. -->
+  <section class="bg-white py-16 xl:py-24">
+    <div class="mx-auto max-w-3xl px-5 xl:px-0">
+      <Prose html={accessibilityHtml} />
+    </div>
+  </section>
+</BaseLayout>

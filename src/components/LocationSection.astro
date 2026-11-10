@@ -20,7 +20,8 @@ const feedUrl = import.meta.env.PUBLIC_GOOGLE_REVIEWS_URL as string | undefined;
         </div>
         <div class="group relative aspect-square overflow-hidden rounded-img bg-fog shadow-[0_14px_30px_-18px_rgba(28,27,27,.55)]">
           <iframe
-            src={location.mapEmbed}
+            data-consent="embeds"
+            data-src={location.mapEmbed}
             title="Map showing Imber Medical on Frederica Road"
             loading="lazy"
             referrerpolicy="no-referrer-when-downgrade"

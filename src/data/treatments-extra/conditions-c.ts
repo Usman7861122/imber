@@ -109,9 +109,9 @@ export const conditionsC: Treatment[] = [
       overview: IMG + 'body-contouring-2.jpg',
       fit: IMG + 'body-contouring-3.jpg',
       alt: {
-        hero: 'A woman with a toned waist',
-        overview: 'A close view of smooth skin on the body',
-        fit: 'A woman with healthy skin on her hips and legs',
+        hero: 'A care provider checking a patient with a wearable monitor during a visit',
+        overview: 'A smiling doctor talking with a woman patient in a bright clinic',
+        fit: 'A dietitian with a tape measure and a basket of fresh fruit and vegetables',
       },
     },
     overview: {
